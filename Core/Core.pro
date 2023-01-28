@@ -23,14 +23,18 @@ SOURCES += \
     elineedit.cpp \
     elineedit_p.cpp \
     esecretcombobox.cpp \
-    esecretcombobox_p.cpp
+    esecretcombobox_p.cpp \
+    etreeitem.cpp \
+    etreemodel.cpp
 
 HEADERS += \
     core_global.h \
     elineedit.h \
     elineedit_p.h \
     esecretcombobox.h \
-    esecretcombobox_p.h
+    esecretcombobox_p.h \
+    etreeitem.h \
+    etreemodel.h
 
 # Default rules for deployment.
 unix {
