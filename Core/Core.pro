@@ -22,6 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     elineedit.cpp \
     elineedit_p.cpp \
+    eloadingwidget.cpp \
     esecretcombobox.cpp \
     esecretcombobox_p.cpp \
     etreeitem.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     core_global.h \
     elineedit.h \
     elineedit_p.h \
+    eloadingwidget.h \
     esecretcombobox.h \
     esecretcombobox_p.h \
     etreeitem.h \
