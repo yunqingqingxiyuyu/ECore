@@ -9,4 +9,8 @@
 #  define CORE_EXPORT Q_DECL_IMPORT
 #endif
 
+#define Q_DECLARE_D(Class) \
+    class Class##Private *d_ptr = nullptr;
+
+
 #endif // CORE_GLOBAL_H

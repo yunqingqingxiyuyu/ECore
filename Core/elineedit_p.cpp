@@ -21,13 +21,13 @@ void ELineEditPrivate::init()
 
     m_clearAction->setVisible((!q->text().isEmpty()) && isClearButtonEnabled());
 
-    connect(m_searchAction,&QAction::triggered,q,&ELineEdit::searchButtonPressed);
+    connect(m_searchAction,&QAction::triggered,this,&ELineEditPrivate::searchButtonPressed);
     connect(m_clearAction,&QAction::triggered,q,&ELineEdit::clear);
     connect(q,&ELineEdit::textChanged,this,[=](){
             m_clearAction->setVisible((!(q->text().isEmpty())) && isClearButtonEnabled());
     });
 
-    connect(q,&ELineEdit::returnPressed,q,&ELineEdit::searchButtonPressed);
+    connect(q,&ELineEdit::returnPressed,this,&ELineEditPrivate::searchButtonPressed);
 
     connect(q,&QLineEdit::textChanged,q,[=](const QString &text){
         emit q->textChanged(isDecoration() ? text.trimmed() : text);
@@ -36,6 +36,13 @@ void ELineEditPrivate::init()
         emit q->textChanged(isDecoration() ? text.trimmed() : text);
     });
 
+}
+
+
+void ELineEditPrivate::searchButtonPressed()
+{
+    Q_Q(ELineEdit);
+    emit q->searchPressed(q->text());
 }
 
 void ELineEditPrivate::setDecoration(bool enabled)

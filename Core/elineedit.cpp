@@ -61,11 +61,6 @@ QString ELineEdit::text() const
     return QLineEdit::text();
 }
 
-void ELineEdit::searchButtonPressed()
-{
-    emit searchPressed(this->text());
-}
-
 void ELineEdit::setClearButtonEnabled(bool enabled)
 {
     Q_D(ELineEdit);

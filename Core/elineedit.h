@@ -5,8 +5,6 @@
 
 #include <QLineEdit>
 
-class ELineEditPrivate;
-
 /**
  * @brief The ELineEdit class
  * @details 扩展QLineEdit,用于获取设置文本时，自动对文本做一些处理工作
@@ -90,16 +88,10 @@ signals:
      */
     void textEdited(const QString &text);
 
-private slots:
-    /**
-     * @brief searchButtonPressed
-     * @details 响应查询按钮按下
-     */
-    void searchButtonPressed();
 
 private:
     Q_DISABLE_COPY(ELineEdit);
-    ELineEditPrivate *d_ptr = nullptr;
+    Q_DECLARE_D(ELineEdit);
     Q_DECLARE_PRIVATE(ELineEdit);
 };
 

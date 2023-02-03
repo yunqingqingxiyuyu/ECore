@@ -1,5 +1,7 @@
 QT += gui widgets
 
+QT += designer
+
 TEMPLATE = lib
 DEFINES += CORE_LIBRARY
 
