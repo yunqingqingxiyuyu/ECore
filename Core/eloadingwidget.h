@@ -4,9 +4,6 @@
 #include "core_global.h"
 #include <QWidget>
 
-class QMovie;
-class QLabel;
-
 /**
  * @brief The ELoadingWidget class
  * @details 显示加载图标
@@ -15,8 +12,9 @@ class CORE_EXPORT ELoadingWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ELoadingWidget(QWidget *parent,const QString &text,qint32 delayMillisecond = 0);
-    ~ELoadingWidget();
+    explicit ELoadingWidget(const QString &text ,qint32 delayMillisecond ,QWidget *parent = nullptr);
+    explicit ELoadingWidget(QWidget *parent = nullptr);
+    virtual ~ELoadingWidget() override;
 
     /**
      * @brief setFileName
@@ -30,18 +28,13 @@ public:
      */
     void setText(const QString &text);
 
-private slots:
-    /**
-     * @brief startPlay
-     * 开始播放
-     */
-    void startPlay();
+protected:
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
-    QMovie *m_movie = nullptr;
-    QLabel *m_label = nullptr;
-    QLabel *m_textLabel = nullptr;
+    Q_DISABLE_COPY(ELoadingWidget);
     Q_DECLARE_D(ELoadingWidget);
+    Q_DECLARE_PRIVATE(ELoadingWidget);
 };
 
 #endif // ELOADINGWIDGET_H

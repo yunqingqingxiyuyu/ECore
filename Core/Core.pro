@@ -25,6 +25,7 @@ SOURCES += \
     elineedit.cpp \
     elineedit_p.cpp \
     eloadingwidget.cpp \
+    eloadingwidget_p.cpp \
     esecretcombobox.cpp \
     esecretcombobox_p.cpp \
     etreeitem.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     elineedit.h \
     elineedit_p.h \
     eloadingwidget.h \
+    eloadingwidget_p.h \
     esecretcombobox.h \
     esecretcombobox_p.h \
     etreeitem.h \

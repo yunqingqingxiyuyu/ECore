@@ -5,6 +5,8 @@
 
 #include <QLineEdit>
 
+class ELineEditPrivate;
+
 /**
  * @brief The ELineEdit class
  * @details 扩展QLineEdit,用于获取设置文本时，自动对文本做一些处理工作

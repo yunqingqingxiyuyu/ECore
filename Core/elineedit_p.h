@@ -2,7 +2,6 @@
 #define ELINEEDITPRIVATE_H
 
 #include <QObject>
-#include <QDesignerCustomWidgetInterface>
 
 class ELineEdit;
 class QAction;

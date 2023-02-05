@@ -1,48 +1,63 @@
 #include "eloadingwidget.h"
 
+#include "eloadingwidget_p.h"
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QDebug>
 #include <QLabel>
 #include <QMovie>
 #include <QTimer>
 #include <QVBoxLayout>
 
-ELoadingWidget::ELoadingWidget(QWidget *parent,const QString &text,qint32 delayMillisecond):
-    QWidget(parent)
+ELoadingWidget::ELoadingWidget(
+        const QString &text,
+        qint32 delayMillisecond,
+        QWidget *parent
+        ):
+    QWidget(parent),
+    d_ptr(new ELoadingWidgetPrivate(this,text,delayMillisecond))
 {
-    this->raise();
+}
 
-    m_movie = new QMovie(this);
-    m_label = new QLabel(this);
-    m_textLabel = new QLabel(text,this);
+ELoadingWidget::ELoadingWidget(QWidget *parent) :
+    ELoadingWidget(QString(),0,parent)
+{
 
-    setWindowOpacity(0.8);
-
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->addWidget(m_label);
-    mainLay->addWidget(m_textLabel);
-    setLayout(mainLay);
-
-    m_label->setMovie(m_movie);
-
-    QTimer::singleShot(delayMillisecond, this, &ELoadingWidget::startPlay);
 }
 
 ELoadingWidget::~ELoadingWidget()
 {
-
+    Q_D(ELoadingWidget);
+    d->deleteLater();
 }
 
 void ELoadingWidget::setFileName(const QString &fileName)
 {
-    m_movie->setFileName(fileName);
-}
-
-void ELoadingWidget::startPlay()
-{
-
-    m_movie->start();
+    Q_D(ELoadingWidget);
+    d->setFileName(fileName);
 }
 
 void ELoadingWidget::setText(const QString &text)
 {
-    m_textLabel->setText(text);
+    Q_D(ELoadingWidget);
+    d->setText(text);
+}
+
+bool ELoadingWidget::eventFilter(QObject *watched, QEvent *event)
+{
+    if(parent() == watched)
+    {
+        if(event->type() == QEvent::Resize)
+        {
+            QWidget *parent = static_cast<QWidget *>(watched);
+            if(parent != nullptr)
+            {
+                resize(parent->size());
+                update();
+            }
+        }
+        return false;
+    }
+
+    return QWidget::eventFilter(watched,event);
 }
