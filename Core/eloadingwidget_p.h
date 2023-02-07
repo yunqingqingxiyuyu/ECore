@@ -15,7 +15,7 @@ class ELoadingWidgetPrivate : public QObject
     Q_DISABLE_COPY(ELoadingWidgetPrivate);
     Q_DECLARE_PUBLIC(ELoadingWidget);
 public:
-    explicit ELoadingWidgetPrivate(ELoadingWidget *parent,const QString &text = "",qint32 delayMillisecond = 0);
+    explicit ELoadingWidgetPrivate(ELoadingWidget *parent,const QString &text = "",qint32 delayMillisecond = 0,QWidget *topParent = nullptr);
     virtual ~ELoadingWidgetPrivate() override;
 
     /**

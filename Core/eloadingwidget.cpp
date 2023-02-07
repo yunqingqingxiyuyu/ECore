@@ -15,7 +15,7 @@ ELoadingWidget::ELoadingWidget(
         QWidget *parent
         ):
     QWidget(parent),
-    d_ptr(new ELoadingWidgetPrivate(this,text,delayMillisecond))
+    d_ptr(new ELoadingWidgetPrivate(this,text,delayMillisecond,parent))
 {
 }
 
@@ -27,8 +27,8 @@ ELoadingWidget::ELoadingWidget(QWidget *parent) :
 
 ELoadingWidget::~ELoadingWidget()
 {
-    Q_D(ELoadingWidget);
-    d->deleteLater();
+    delete d_ptr;
+    d_ptr = nullptr;
 }
 
 void ELoadingWidget::setFileName(const QString &fileName)
