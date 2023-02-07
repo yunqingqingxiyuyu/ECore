@@ -1,5 +1,7 @@
 QT += gui widgets
 
+QT += designer
+
 TEMPLATE = lib
 DEFINES += CORE_LIBRARY
 
@@ -22,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     elineedit.cpp \
     elineedit_p.cpp \
+    eloadingwidget.cpp \
+    eloadingwidget_p.cpp \
     esecretcombobox.cpp \
     esecretcombobox_p.cpp \
     etreeitem.cpp \
@@ -31,6 +35,8 @@ HEADERS += \
     core_global.h \
     elineedit.h \
     elineedit_p.h \
+    eloadingwidget.h \
+    eloadingwidget_p.h \
     esecretcombobox.h \
     esecretcombobox_p.h \
     etreeitem.h \

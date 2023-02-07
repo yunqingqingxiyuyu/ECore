@@ -28,6 +28,13 @@ public:
 private:
     void init();
 
+private slots:
+    /**
+     * @brief searchButtonPressed
+     * @details 响应查询按钮按下
+     */
+    void searchButtonPressed();
+
 private:
     /**
      * @brief m_isDecoration

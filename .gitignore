@@ -1,0 +1,8 @@
+.*dll
+*.lib
+*.obj
+*.o
+*.a
+*.exe
+*.autosave
+*.pro.user.*

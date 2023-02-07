@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     App \
     Core \
-    Examples
+    Examples \
+    Plugins

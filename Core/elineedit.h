@@ -90,16 +90,10 @@ signals:
      */
     void textEdited(const QString &text);
 
-private slots:
-    /**
-     * @brief searchButtonPressed
-     * @details 响应查询按钮按下
-     */
-    void searchButtonPressed();
 
 private:
     Q_DISABLE_COPY(ELineEdit);
-    ELineEditPrivate *d_ptr = nullptr;
+    Q_DECLARE_D(ELineEdit);
     Q_DECLARE_PRIVATE(ELineEdit);
 };
 
