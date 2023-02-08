@@ -53,7 +53,7 @@ ELoadingWidgetPrivate::ELoadingWidgetPrivate(
 
     q->resize(parentSize);
 
-    q->setWindowFlags(q->windowFlags() | Qt::FramelessWindowHint | Qt::WindowTransparentForInput |  Qt::WindowStaysOnTopHint | Qt::Dialog);
+    q->setWindowFlags(q->windowFlags() | Qt::FramelessWindowHint | Qt::WindowTransparentForInput | Qt::Dialog);
     q->setWindowOpacity(0.8);
 
     m_movie->setFileName(":/resources/loading.gif");
