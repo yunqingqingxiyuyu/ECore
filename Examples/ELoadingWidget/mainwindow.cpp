@@ -55,6 +55,7 @@ void MainWindow::noBlockingTest()
     do{
         //此处弹出对话框，期间不影响后续代码执行，但是不响应界面操作
         ELoadingWidget w(this);//("111111111111111",10 * 1000,this);
+//        w.setFileName("C:\\Users\\zl\\Desktop\\loading2.gif");
         m_loop.exec();
 
     }while (false);
