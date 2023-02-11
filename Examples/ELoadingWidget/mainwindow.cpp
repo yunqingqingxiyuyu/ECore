@@ -6,21 +6,10 @@
 #include <QThread>
 
 #include <QPushButton>
-#include <synchapi.h>
 #include "ELoadingWidget"
 
 void print()
 {
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
-    qDebug() << __PRETTY_FUNCTION__;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -29,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QPushButton *button = new QPushButton("按下按钮，弹出信息",this);
+    QPushButton *button = new QPushButton("按下按钮，弹出信",this);
     button->setStyleSheet("QPushButton{background-color:green;}");
     connect(button,&QPushButton::clicked,this,[=](){
         QTimer::singleShot(10*1000,this,[=](){
@@ -44,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    qDebug() << __PRETTY_FUNCTION__;
     delete ui;
 }
 
@@ -55,6 +43,7 @@ void MainWindow::noBlockingTest()
     do{
         //此处弹出对话框，期间不影响后续代码执行，但是不响应界面操作
         ELoadingWidget w(this);//("111111111111111",10 * 1000,this);
+//        w.setFileName("C:\\Users\\zl\\Desktop\\loading2.gif");
         m_loop.exec();
 
     }while (false);

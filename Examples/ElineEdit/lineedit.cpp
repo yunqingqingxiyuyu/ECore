@@ -19,8 +19,8 @@ LineEdit::LineEdit(QWidget *parent)
     ELineEdit *lineEdit3 = new ELineEdit();
     lineEdit3->setPlaceholderText("默认清除空格");
     lineEdit3->setClearButtonEnabled(false);
-    QLabel *searchLabel = new QLabel("查找显示的文本");
-    QLineEdit *displayLabel = new QLineEdit;
+    QLabel *searchLabel = new QLabel("查找显示");
+    QLineEdit *displayLabel = new QLineEdit();
 
     QGridLayout *mainLay = new QGridLayout;
     mainLay->addWidget(lineEdit,0,0,1,2);

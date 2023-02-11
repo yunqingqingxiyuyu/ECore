@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>ELineEdit.png</file>
+
+    </qresource>
+</RCC>

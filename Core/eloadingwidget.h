@@ -28,6 +28,7 @@ public:
      */
     void setText(const QString &text);
 
+
 protected:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;
 

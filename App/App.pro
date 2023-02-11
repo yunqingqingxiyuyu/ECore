@@ -30,5 +30,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-INCLUDEPATH += $$PWD/../Core/
-LIBS += -L$$PWD/../Core/EWidgets -lEWidgets
+include($$PWD/../Example/Examples.pri)

@@ -2,7 +2,7 @@
 
 扩展QLineEdit控件，默认显示查找按钮与清除按钮，默认对输入的文本前后空白字符清除。
 
-Header:`#include <ElineEdit>`
+Header:`#include <ELineEdit>`
 
 qmake:
 

@@ -1,3 +1,3 @@
 INCLUDEPATH += $$PWD/../Core/
-LIBS += -L$$PWD/../Core/EWidgets -lEWidgets
+LIBS += -L$$PWD/../Core/ECore -lECore
 DEPENDPATH += $$PWD/../Core/

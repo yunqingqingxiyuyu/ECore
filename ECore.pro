@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
+CONFIG += orderd
+
 SUBDIRS += \
-    App \
     Core \
-    Examples \
-    Plugins
+    Examples
