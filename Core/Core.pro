@@ -7,8 +7,8 @@ DEFINES += CORE_LIBRARY
 
 CONFIG += c++11
 
-TARGET = EWidgets
-DESTDIR = $$PWD/ewidgets
+TARGET = ECore
+DESTDIR = $$PWD/ECore
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -22,6 +22,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ecalendartimewidget.cpp \
+    ecalendartimewidget_p.cpp \
     edatetimeedit.cpp \
     edatetimeedit_p.cpp \
     elineedit.cpp \
@@ -29,12 +31,12 @@ SOURCES += \
     eloadingwidget.cpp \
     eloadingwidget_p.cpp \
     esecretcombobox.cpp \
-    esecretcombobox_p.cpp \
-    etreeitem.cpp \
-    etreemodel.cpp
+    esecretcombobox_p.cpp
 
 HEADERS += \
     core_global.h \
+    ecalendartimewidget.h \
+    ecalendartimewidget_p.h \
     edatetimeedit.h \
     edatetimeedit_p.h \
     elineedit.h \
@@ -42,9 +44,7 @@ HEADERS += \
     eloadingwidget.h \
     eloadingwidget_p.h \
     esecretcombobox.h \
-    esecretcombobox_p.h \
-    etreeitem.h \
-    etreemodel.h
+    esecretcombobox_p.h
 
 # Default rules for deployment.
 unix {

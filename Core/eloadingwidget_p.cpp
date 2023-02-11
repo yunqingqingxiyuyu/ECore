@@ -74,7 +74,6 @@ void ELoadingWidgetPrivate::setFileName(const QString &fileName)
 
 void ELoadingWidgetPrivate::startPlay()
 {
-    qDebug() << __PRETTY_FUNCTION__;
     Q_Q(ELoadingWidget);
     m_movie->start();
     q->show();
