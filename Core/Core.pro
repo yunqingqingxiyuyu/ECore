@@ -31,7 +31,9 @@ SOURCES += \
     eloadingwidget.cpp \
     eloadingwidget_p.cpp \
     esecretcombobox.cpp \
-    esecretcombobox_p.cpp
+    esecretcombobox_p.cpp \
+    etimewidget.cpp \
+    etimewidget_p.cpp
 
 HEADERS += \
     core_global.h \
@@ -44,7 +46,9 @@ HEADERS += \
     eloadingwidget.h \
     eloadingwidget_p.h \
     esecretcombobox.h \
-    esecretcombobox_p.h
+    esecretcombobox_p.h \
+    etimewidget.h \
+    etimewidget_p.h
 
 # Default rules for deployment.
 unix {
