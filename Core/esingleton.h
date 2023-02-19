@@ -4,6 +4,7 @@
 #include "core_global.h"
 #include <QMutex>
 #include <QMutexLocker>
+#include <QDebug>
 
 /**
  * @brief The ESingleton class
@@ -21,7 +22,8 @@ private:
     class Internal{
     public:
         ~Internal(){
-            delete ESingleton<T>::s_instance;
+            qDebug() << __PRETTY_FUNCTION__;
+            delete  ESingleton<T>::s_instance;
             ESingleton<T>::s_instance = nullptr;
         }
     };

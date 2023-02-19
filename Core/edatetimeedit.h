@@ -13,6 +13,7 @@ public:
     explicit EDateTimeEdit(const QTime &time, QWidget *parent = nullptr);
     explicit EDateTimeEdit(const QDate &date, QWidget *parent = nullptr);
     explicit EDateTimeEdit(const QDateTime &datetime, QWidget *parent = nullptr);
+
     ~EDateTimeEdit();
 
     /**

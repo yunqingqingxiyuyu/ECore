@@ -2,5 +2,5 @@
 
 Singleton::Singleton()
 {
-//    qDebug() << "构造函数";
+    qDebug() << "构造函数";
 }

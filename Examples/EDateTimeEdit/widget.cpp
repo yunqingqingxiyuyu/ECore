@@ -6,11 +6,18 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
+#include "ESingleton"
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+
+    auto edit = ESingleton<EDateTimeEdit>::getInstance();
+    qDebug() << "对象地址" << edit;
+    edit = ESingleton<EDateTimeEdit>::getInstance();
+    qDebug() << "对象地址" << edit;
 
     edit = new EDateTimeEdit(this);
     edit->clearDisplayText();
@@ -51,8 +58,9 @@ Widget::Widget(QWidget *parent)
     });
 
     connect(button2,&QPushButton::clicked,this,[=](){
-        if(!ed)
-            ed = new EDateTimeEdit;
+        ed = ESingleton<EDateTimeEdit>::getInstance();
+        ed->setParent(this);
+        qDebug() << ed;
 
         ed->show();
     });

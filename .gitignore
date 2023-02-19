@@ -6,3 +6,5 @@
 *.exe
 *.autosave
 *.pro.user.*
+./ECore/*n
+./ECorePlugin/*

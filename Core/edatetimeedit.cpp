@@ -173,6 +173,7 @@ void EDateTimeEdit::showEvent(QShowEvent *event)
 {
     Q_D(EDateTimeEdit);
     QString temp = d->lineEdit->text();
+    qDebug() << temp;
 
     QDateTimeEdit::showEvent(event);
 
