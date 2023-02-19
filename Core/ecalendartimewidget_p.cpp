@@ -12,4 +12,5 @@ ECalendarTimeWidgetPrivate::ECalendarTimeWidgetPrivate(ECalendarTimeWidget *pare
 
 QWidget* ECalendarTimeWidgetPrivate::createTimeWidget()
 {
+    return nullptr;
 }

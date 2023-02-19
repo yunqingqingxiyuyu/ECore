@@ -1,3 +1,3 @@
 INCLUDEPATH += $$PWD/../Core/
-LIBS += -L$$PWD/../Core/ECore -lECore
+LIBS += -L$$PWD/../ECorePlugin -lECorePlugin
 DEPENDPATH += $$PWD/../Core/

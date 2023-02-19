@@ -76,6 +76,8 @@ protected:
 
     virtual void paintEvent(QPaintEvent *event) override;
 
+    virtual void showEvent(QShowEvent *event) override;
+
 private:
     Q_DISABLE_COPY(EDateTimeEdit);
     Q_DECLARE_D(EDateTimeEdit);

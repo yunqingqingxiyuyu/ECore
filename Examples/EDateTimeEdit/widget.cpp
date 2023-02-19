@@ -13,6 +13,8 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 
     edit = new EDateTimeEdit(this);
+    edit->clearDisplayText();
+    qDebug() << edit->text();
 
     QPushButton *button = new QPushButton;
     QPushButton *button2 = new QPushButton("111111111");
@@ -46,8 +48,16 @@ Widget::Widget(QWidget *parent)
     });
 
     connect(edit,&EDateTimeEdit::dateTimeChanged,this,[=](const QDateTime &dateTime){
-        qDebug() << __PRETTY_FUNCTION__ << dateTime;
     });
+
+    connect(button2,&QPushButton::clicked,this,[=](){
+        if(!ed)
+            ed = new EDateTimeEdit;
+
+        ed->show();
+    });
+
+    edit->clearDisplayText();
 }
 
 Widget::~Widget()

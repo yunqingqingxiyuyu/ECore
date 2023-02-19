@@ -83,7 +83,15 @@ void EDateTimeEdit::keyPressEvent(QKeyEvent *event)
 void EDateTimeEdit::focusInEvent(QFocusEvent *event)
 {
     Q_D(EDateTimeEdit);
-    QDateTimeEdit::focusInEvent(event);
+    QString temp = d->lineEdit->text();
+    if(emptyEnabled())
+    {
+        d->lineEdit->setText(temp);
+    }
+    else
+    {
+        QDateTimeEdit::focusInEvent(event);
+    }
 }
 
 void EDateTimeEdit::focusOutEvent(QFocusEvent *event)
@@ -146,7 +154,7 @@ void EDateTimeEdit::setDisplayFormat(const QString &format)
 
     QDateTimeEdit::setDisplayFormat(format);
 
-    if(emptyEnabled())
+    if(emptyEnabled() && temp.isEmpty())
     {
         d->lineEdit->setText(temp);
     }
@@ -158,5 +166,18 @@ void EDateTimeEdit::clearDisplayText()
     if(emptyEnabled())
     {
         d->lineEdit->setText("");
+    }
+}
+
+void EDateTimeEdit::showEvent(QShowEvent *event)
+{
+    Q_D(EDateTimeEdit);
+    QString temp = d->lineEdit->text();
+
+    QDateTimeEdit::showEvent(event);
+
+    if(emptyEnabled())
+    {
+        d->lineEdit->setText(temp);
     }
 }

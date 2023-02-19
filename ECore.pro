@@ -4,4 +4,5 @@ CONFIG += orderd
 
 SUBDIRS += \
     Core \
-    Examples
+    Examples \
+    Plugin
