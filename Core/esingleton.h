@@ -22,7 +22,6 @@ private:
     class Internal{
     public:
         ~Internal(){
-            qDebug() << __PRETTY_FUNCTION__;
             delete  ESingleton<T>::s_instance;
             ESingleton<T>::s_instance = nullptr;
         }

@@ -3,8 +3,10 @@
 
 #include <ELineEdit>
 
+#include <QDebug>
 #include <QLabel>
 #include <QGridLayout>
+#include <QRegularExpressionValidator>
 
 LineEdit::LineEdit(QWidget *parent)
     : QWidget(parent)
@@ -12,7 +14,8 @@ LineEdit::LineEdit(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ELineEdit *lineEdit = new ELineEdit("  获取设置自动把字符串的前后空格清除   ");
+    ELineEdit *lineEdit = new ELineEdit("  获取设置自动把字符串的前后空格清除1221212222222222222222222222222222222222222222   ");
+
     ELineEdit *lineEdit2 = new ELineEdit();
     lineEdit2->setPlaceholderText("默认清除空格");
     lineEdit2->setSearchButtonEnabled(false);

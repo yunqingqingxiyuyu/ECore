@@ -70,6 +70,13 @@ public:
      */
     bool isSearchButtonEnabled() const;
 
+    /**
+     * @brief setValidator
+     * 设置验证器
+     * @param validator
+     */
+    void setValidator(const QValidator *validator);
+
 signals:
     /**
      * @brief searchPressed

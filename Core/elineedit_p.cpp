@@ -2,6 +2,8 @@
 
 #include <QAction>
 #include <QIcon>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
 
 #include "elineedit.h"
 
@@ -10,9 +12,22 @@ ELineEditPrivate::ELineEditPrivate(ELineEdit *parent):
 {
 }
 
+ELineEditPrivate::~ELineEditPrivate()
+{
+}
+
 void ELineEditPrivate::init()
 {
     Q_Q(ELineEdit);
+
+    q->setMaxLength(20);
+
+    QRegularExpression re;
+    re.setPattern("[\\w\\d_]*");
+
+    m_defaultValidator = new QRegularExpressionValidator(re,this);
+    q->QLineEdit::setValidator(m_defaultValidator);
+
     m_searchAction = q->addAction(QIcon(":/resources/search.png"),QLineEdit::LeadingPosition);
     m_clearAction = q->addAction(QIcon(":/resources/clear.png"),QLineEdit::TrailingPosition);
 

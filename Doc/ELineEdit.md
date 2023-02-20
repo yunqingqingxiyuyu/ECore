@@ -17,7 +17,7 @@ Inherits :`QLineEdit`
 
 ![image-20230119133723874](.\images\ELineEdit.png)
 
-获取设置文本时，会自动把文本内容前后的空白字符清空。ElineEdit默认显示搜索按钮，当控件内有内容时，显示清除按钮。
+获取设置文本时，会自动把文本内容前后的空白字符清空。ElineEdit默认显示搜索按钮，当控件内有内容时，显示清除按钮。ELineEdit默认添加了一个`validator`,使本输入框在默认情况下只能输入数字字符以及下划线（如果要取消该设置，使用setValidator(nullptr)）。本控件默认情况下的输入长度为20（可以使用setMaxLength()来重新指定可输入长度）。
 
 ### 信号    
 

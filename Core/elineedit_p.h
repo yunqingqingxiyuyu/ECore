@@ -5,6 +5,7 @@
 
 class ELineEdit;
 class QAction;
+class QRegularExpressionValidator;
 
 /**
  * @brief The ELineEditPrivate class
@@ -17,6 +18,7 @@ class ELineEditPrivate : public QObject
     Q_DECLARE_PUBLIC(ELineEdit);
 public:
     explicit ELineEditPrivate(ELineEdit *parent);
+    ~ELineEditPrivate();
 
     void setDecoration(bool enable = true);
     bool isDecoration() const;
@@ -65,6 +67,8 @@ private:
      * @details 是否显示清除按钮
      */
     bool m_isClearButtonEnabled = true;
+
+    QRegularExpressionValidator *m_defaultValidator = nullptr;
 };
 
 #endif // ELINEEDITPRIVATE_H

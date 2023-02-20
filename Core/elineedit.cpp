@@ -85,3 +85,14 @@ bool ELineEdit::isSearchButtonEnabled() const
     return d->isSearchButtonEnabled();
 }
 
+
+void ELineEdit::setValidator(const QValidator *validator)
+{
+    Q_D(ELineEdit);
+    if(validator != d->m_defaultValidator)
+    {
+        delete d->m_defaultValidator;
+        d->m_defaultValidator = nullptr;
+        QLineEdit::setValidator(validator);
+    }
+}
