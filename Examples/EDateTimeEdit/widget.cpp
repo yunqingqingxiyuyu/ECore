@@ -7,6 +7,8 @@
 #include <QLineEdit>
 
 #include "ESingleton"
+#include "ETimeWidget"
+#include "ecalendartimewidget.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -23,15 +25,29 @@ Widget::Widget(QWidget *parent)
     edit->clearDisplayText();
     qDebug() << edit->text();
 
+    ECalendarTimeWidget * t = new ECalendarTimeWidget;
+
+    edit->setCalendarPopup(true);
+    edit->setCalendarWidget(t);
+
     QPushButton *button = new QPushButton;
     QPushButton *button2 = new QPushButton("111111111");
+
+
+    ETimeWidget *w = new ETimeWidget(QTime::currentTime());
 
     QVBoxLayout *lay = new QVBoxLayout;
 
     lay->addWidget(edit);
     lay->addWidget(button);
     lay->addWidget(button2);
+    lay->addWidget(w);
     setLayout(lay);
+
+    connect(w,&ETimeWidget::timeChanged,this,[=](const QTime &time){
+        qDebug() << time;
+    });
+
 
     connect(button,&QPushButton::clicked,this,[=](){
         QVariant v ="";

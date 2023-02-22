@@ -6,6 +6,8 @@
 #include <QMutexLocker>
 #include <QDebug>
 
+#define ES(T) ESingleton<T>::getInstance()
+
 /**
  * @brief The ESingleton class
  * 单例模式的模板类

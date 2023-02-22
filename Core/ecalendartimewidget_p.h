@@ -4,6 +4,7 @@
 #include <QObject>
 
 class ECalendarTimeWidget;
+class ETimeWidget;
 
 class ECalendarTimeWidgetPrivate : public QObject
 {
@@ -16,9 +17,10 @@ public:
     explicit ECalendarTimeWidgetPrivate(ECalendarTimeWidget *parent);
 
 private:
-    QWidget* createTimeWidget();
+    QWidget* timeWidget() const;
 
 public:
+    ETimeWidget *m_timeWidget = nullptr;
 
 };
 

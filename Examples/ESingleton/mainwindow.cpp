@@ -11,7 +11,9 @@ void func()
 
     Singleton *obj2 = ESingleton<Singleton>::getInstance();
 
-    qDebug() << obj << obj2;
+    Singleton *obj3 = ES(Singleton);
+
+    qDebug() << obj << obj2 << obj3;
 }
 
 MainWindow::MainWindow(QWidget *parent)

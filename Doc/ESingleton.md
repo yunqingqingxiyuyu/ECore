@@ -1,12 +1,12 @@
 # ESingleton
 
-创建的一个单例模板类，该模板类指定的模板参数必须是`QObject`派生的类。
+创建的一个单例模板类。
 
 Header:`#include <ELineEdit>`
 
 ## 描述
 
-创建的一个单例模板类，该模板类指定的模板参数必须是`QObject`派生的类。该模板类可以创建唯一的一个实例，其用法如下，例如要创建一个`EDateTimeEdit`的一个唯一对象:
+创建的一个单例模板类。该模板类可以创建唯一的一个实例，其用法如下，例如要创建一个`EDateTimeEdit`的一个唯一对象:
 
 ```C++
 auto edit = ESingleton<EDateTimeEdit>::getInstance();
