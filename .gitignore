@@ -1,10 +1,11 @@
-.*dll
+*.dll
 *.lib
 *.obj
 *.o
 *.a
 *.exe
 *.autosave
+*.pro.user
 *.pro.user.*
 ./ECore/*n
 ./ECorePlugin/*

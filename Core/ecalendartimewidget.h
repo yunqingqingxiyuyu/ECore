@@ -15,11 +15,16 @@ public:
 
     QSize sizeHint() const override;
 
+    void setDateTime(const QDateTime &dateTime);
+
+    QDateTime dateTime() const;
+
+    QTime time() const;
+
 private:
     Q_DISABLE_COPY(ECalendarTimeWidget);
     Q_DECLARE_D(ECalendarTimeWidget);
     Q_DECLARE_PRIVATE(ECalendarTimeWidget);
-
 };
 
 #endif // ECALENDARTIMEWIDGET_H

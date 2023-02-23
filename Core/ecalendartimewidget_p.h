@@ -16,6 +16,19 @@ class ECalendarTimeWidgetPrivate : public QObject
 public:
     explicit ECalendarTimeWidgetPrivate(ECalendarTimeWidget *parent);
 
+    /**
+     * @brief setDateTime
+     * 设置日期时间
+     * @param dateTime
+     */
+    void setDateTime(const QDateTime &dateTime);
+
+    /**
+     * @brief time
+     * @return 返回时间
+     */
+    QTime time() const;
+
 private:
     QWidget* timeWidget() const;
 
