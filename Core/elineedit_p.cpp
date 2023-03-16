@@ -23,7 +23,7 @@ void ELineEditPrivate::init()
     q->setMaxLength(20);
 
     QRegularExpression re;
-    re.setPattern("[\\w\\d_]*");
+    re.setPattern("[^\\s]*");
 
     m_defaultValidator = new QRegularExpressionValidator(re,this);
     q->QLineEdit::setValidator(m_defaultValidator);
