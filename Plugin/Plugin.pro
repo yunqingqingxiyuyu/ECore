@@ -2,19 +2,19 @@ CONFIG += plugin debug_and_release
 
 CONFIG(debug, debug|release) {
         TARGET =$$qtLibraryTarget(ecoreplugind)
-#        DESTDIR = $$PWD/../ECorePlugind
+        DESTDIR = $$PWD/../ECorePlugind
 
 } else {
         TARGET = $$qtLibraryTarget(ecoreplugin)
-#        DESTDIR = $$PWD/../ECorePlugin
+        DESTDIR = $$PWD/../ECorePlugin
 }
 
 QT += gui widgets uiplugin
 
 TEMPLATE = lib
 
-#DEFINES += PLUGIN_LIBRARY
-#DEFINES += CORE_LIBRARY
+DEFINES += PLUGIN_LIBRARY
+DEFINES += CORE_LIBRARY
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += designer
@@ -63,7 +63,7 @@ win32 {
 
 !isEmpty(target.path): INSTALLS += target
 
-#include($$PWD/Plugin.pri)
+include($$PWD/Plugin.pri)
 
 RESOURCES += \
     icons.qrc

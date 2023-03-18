@@ -1,9 +1,8 @@
 #include "etimewidgetplugin.h"
 
-//#include "ETimeWidget"
+#include "ETimeWidget"
 
 #include <QtPlugin>
-#include <QWidget>
 
 ETimeWidgetPlugin::ETimeWidgetPlugin(QObject *parent) :
     QObject(parent)
@@ -26,8 +25,7 @@ bool ETimeWidgetPlugin::isInitialized() const
 
 QWidget *ETimeWidgetPlugin::createWidget(QWidget *parent)
 {
-//    return new ETimeWidget(parent);
-    return new QWidget(parent);
+    return new ETimeWidget(parent);
 }
 
 QString ETimeWidgetPlugin::name() const

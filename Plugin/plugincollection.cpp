@@ -6,7 +6,7 @@ PluginCollection::PluginCollection(QObject *parent) :
     QObject(parent)
 {
     m_widgets.append(new ELineEditPlugin(this));
-//    m_widgets.append(new ETimeWidgetPlugin(this));
+    m_widgets.append(new ETimeWidgetPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface*> PluginCollection::customWidgets() const
