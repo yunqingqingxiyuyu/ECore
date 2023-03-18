@@ -1,5 +1,6 @@
 #include "elineeditplugin.h"
-#include "ELineEdit"
+//#include "ELineEdit"
+#include <QWidget>
 
 #include <QtPlugin>
 
@@ -24,7 +25,8 @@ bool ELineEditPlugin::isInitialized() const
 
 QWidget *ELineEditPlugin::createWidget(QWidget *parent)
 {
-    return new ELineEdit(parent);
+//    return new ELineEdit(parent);
+    return new QWidget(parent);
 }
 
 QString ELineEditPlugin::name() const
