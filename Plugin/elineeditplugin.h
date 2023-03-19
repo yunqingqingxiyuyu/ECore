@@ -1,17 +1,15 @@
 #ifndef ELINEEDITPLUGIN_H
 #define ELINEEDITPLUGIN_H
 
-#include "Plugin_global.h"
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class PLUGIN_EXPORT ELineEditPlugin : public QObject,
+class ELineEditPlugin : public QObject,
         public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface")
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    explicit ELineEditPlugin(QObject *parent = nullptr);
+    ELineEditPlugin(QObject *parent = nullptr);
 
     bool isContainer() const override;
     bool isInitialized() const override;

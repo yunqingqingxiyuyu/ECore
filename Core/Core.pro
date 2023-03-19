@@ -7,8 +7,31 @@ DEFINES += CORE_LIBRARY
 
 CONFIG += c++11
 
-TARGET = ECore
-DESTDIR = $$PWD/../ECore
+
+CONFIG += debug_and_release
+
+CONFIG(debug, debug|release) {
+    TARGET = ECored
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+    DESTDIR = $$PWD/../Lib/ECored_msvc
+
+}else{
+    DESTDIR = $$PWD/../Lib/ECored
+}
+
+} else {
+    TARGET = ECore
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+    DESTDIR = $$PWD/../Lib/ECore_msvc
+
+}else{
+    DESTDIR = $$PWD/../Lib/ECore
+}
+}
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -60,3 +83,8 @@ unix {
 
 RESOURCES += \
     resources.qrc
+
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+}

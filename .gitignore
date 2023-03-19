@@ -9,3 +9,4 @@
 *.pro.user.*
 ./ECore/*n
 ./ECorePlugin/*
+Lib/
