@@ -1,24 +1,27 @@
 CONFIG += plugin debug_and_release
 
 CONFIG(debug, debug|release) {
-        TARGET =$$qtLibraryTarget(ECorePlugind)
 msvc {
+#注意，此处会自动在名字后面+d
+    TARGET =$$qtLibraryTarget(ECorePlugin)
     QMAKE_CFLAGS += /utf-8
     QMAKE_CXXFLAGS += /utf-8
     DESTDIR = $$PWD/../Lib/ECorePlugind_msvc
 
 }else{
+    TARGET =$$qtLibraryTarget(ECorePlugind)
     DESTDIR = $$PWD/../Lib/ECorePlugind
 }
 
 } else {
-        TARGET = $$qtLibraryTarget(ECorePlugin)
 msvc {
+    TARGET = $$qtLibraryTarget(ECorePlugin)
     QMAKE_CFLAGS += /utf-8
     QMAKE_CXXFLAGS += /utf-8
     DESTDIR = $$PWD/../Lib/ECorePlugin_msvc
 
 }else{
+    TARGET = $$qtLibraryTarget(ECorePlugin)
     DESTDIR = $$PWD/../Lib/ECorePlugin
 }
 }

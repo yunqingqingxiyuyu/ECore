@@ -42,14 +42,14 @@ public:
      * 设置可选择的最大日期时间
      * @param dateTime 最大日期时间
      */
-    void setMaximumDateTime(const QDateTime &dateTime){m_maxDateTime = dateTime;}
+    void setMaximumDateTime(const QDateTime &dateTime);
 
     /**
      * @brief setMinimumDateTime
      * 设置可选择的最小日期时间
      * @param dateTime
      */
-    void setMinimumDateTime(const QDateTime &dateTime){m_minDateTime = dateTime;}
+    void setMinimumDateTime(const QDateTime &dateTime);
 
 
     /**
@@ -57,10 +57,11 @@ public:
      * 设置选择的日期时间
      * @param dateTime
      */
-    void setSelectedDateTime(const QDateTime &dateTime){m_selectedDate = dateTime;}
+    void setSelectedDateTime(const QDateTime &dateTime);
 
     /**
      * @brief setCalendarTimeWidget
+     * 设置弹出的日历时间对话框，编辑器不获取日历时间控件的所有权
      * @param calendarTimeWidget
      */
     void setCalendarTimeWidget(ECalendarTimeWidget *calendarTimeWidget);

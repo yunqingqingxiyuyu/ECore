@@ -95,6 +95,12 @@ Q_SIGNALS:
      */
     void cleanButtonClicked();
 
+    /**
+     * @brief selectionDateTimeChanged
+     * 选择的时间日期发生改变
+     */
+    void selectionDateTimeChanged();
+
 private:
     Q_DISABLE_COPY(ECalendarTimeWidget);
     Q_DECLARE_D(ECalendarTimeWidget);

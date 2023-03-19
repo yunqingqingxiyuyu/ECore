@@ -85,8 +85,6 @@ public:
      */
     void setMinimumDateTime(const QDateTime &dateTime);
 
-public Q_SLOTS:
-
     /**
      * @brief setDateTimeRange
      * 设置可选的日期时间范围
@@ -102,9 +100,20 @@ public Q_SLOTS:
      */
     void setSelectedDateTime(const QDateTime &dateTime);
 
-
+private Q_SLOTS:
+    /**
+     * @brief onSelectionChanged
+     * 响应日期时间发生改变
+     */
+    void onSelectionChanged();
 private:
     QWidget* timeWidget() const;
+
+    /**
+     * @brief trySetTimeRange
+     * 如果当前的日期在临界位置，那么就把当前的时间设置在规定的范围内，否则时间控件不应该限制范围
+     */
+    void trySetTimeRange(const QDateTime &dateTime);
 
 public:
     ETimeWidget *m_timeWidget = nullptr;
@@ -120,7 +129,7 @@ public:
 
     QDateTime m_maxDateTime = QDateTime();
 
-    QDateTime m_selectedDate = QDateTime();
+    QDateTime m_selectedDateTime = QDateTime::currentDateTime();
 };
 
 #endif // ECALENDARTIMEWIDGETPRIVATE_H

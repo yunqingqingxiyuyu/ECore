@@ -165,6 +165,11 @@ bool ETimeWidgetPrivate::handleTimeWidget(QObject *obj, QEvent *event)
 
         m_time = tempTime;
 
+        if(!m_time.isValid())
+        {
+            m_time.setHMS(0,0,0);
+        }
+
         update(m_time);
 
         emit q->timeChanged(m_time);
@@ -216,11 +221,22 @@ QTime ETimeWidgetPrivate::maximumTime() const
 void ETimeWidgetPrivate::setMinimumTime(const QTime &time)
 {
     m_minTime = time;
+    if(m_minTime.isValid() && m_time < m_minTime)
+    {
+        m_time = m_minTime;
+        update(m_time);
+    }
 }
 
 void ETimeWidgetPrivate::setMaximumTime(const QTime &time)
 {
     m_maxTime = time;
+
+    if(m_maxTime.isValid() && m_time > m_maxTime)
+    {
+        m_time = m_maxTime;
+        update(m_time);
+    }
 }
 
 void ETimeWidgetPrivate::setTimeRange(const QTime &min, const QTime &max)

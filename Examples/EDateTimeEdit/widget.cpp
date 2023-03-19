@@ -25,25 +25,19 @@ Widget::Widget(QWidget *parent)
     edit->clearDisplayText();
     qDebug() << edit->text();
 
-    EDateTimeEdit *edit2 = new EDateTimeEdit(this);
-    edit2->clearDisplayText();
-    qDebug() << edit2->text();
-
     ECalendarTimeWidget * t = new ECalendarTimeWidget;
 
     edit->setCalendarPopup(true);
     edit->setCalendarWidget(t);
+    qDebug() << __FUNCTION__ << QDateTime::currentDateTime().addYears(-2) << edit->minimumDate();
+    edit->setDateTimeRange(QDateTime::currentDateTime().addYears(-2),QDateTime::currentDateTime().addYears(2));
+    qDebug() << __FUNCTION__ << QDateTime::currentDateTime().addYears(-2) << edit->minimumDate();
 
     connect(t,&ECalendarTimeWidget::cleanButtonClicked,this,[=](){
         qDebug() << QStringLiteral("清空按钮被触发");
     });
 
 
-    ECalendarTimeWidget * t2 = new ECalendarTimeWidget;
-    t2->setCleanButton(nullptr);
-
-    edit2->setCalendarPopup(true);
-    edit2->setCalendarWidget(t2);
 
 
     QPushButton *button = new QPushButton;
@@ -55,7 +49,6 @@ Widget::Widget(QWidget *parent)
     QVBoxLayout *lay = new QVBoxLayout;
 
     lay->addWidget(edit);
-    lay->addWidget(edit2);
     lay->addWidget(button);
     lay->addWidget(button2);
     lay->addWidget(w);
