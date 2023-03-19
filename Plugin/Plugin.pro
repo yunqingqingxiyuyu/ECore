@@ -1,12 +1,26 @@
 CONFIG += plugin debug_and_release
 
 CONFIG(debug, debug|release) {
-        TARGET =$$qtLibraryTarget(ecoreplugind)
-        DESTDIR = $$PWD/../ECorePlugind
+        TARGET =$$qtLibraryTarget(ECorePlugind)
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+    DESTDIR = $$PWD/../Lib/ECorePlugind_msvc
+
+}else{
+    DESTDIR = $$PWD/../Lib/ECorePlugind
+}
 
 } else {
-        TARGET = $$qtLibraryTarget(ecoreplugin)
-        DESTDIR = $$PWD/../ECorePlugin
+        TARGET = $$qtLibraryTarget(ECorePlugin)
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+    DESTDIR = $$PWD/../Lib/ECorePlugin_msvc
+
+}else{
+    DESTDIR = $$PWD/../Lib/ECorePlugin
+}
 }
 
 QT += gui widgets uiplugin
