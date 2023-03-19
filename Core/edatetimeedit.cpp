@@ -80,31 +80,6 @@ void EDateTimeEdit::keyPressEvent(QKeyEvent *event)
     return QDateTimeEdit::keyPressEvent(event);
 }
 
-void EDateTimeEdit::focusInEvent(QFocusEvent *event)
-{
-    Q_D(EDateTimeEdit);
-    QString temp = d->lineEdit->text();
-    if(emptyEnabled())
-    {
-        d->lineEdit->setText(temp);
-    }
-    else
-    {
-        QDateTimeEdit::focusInEvent(event);
-    }
-}
-
-void EDateTimeEdit::focusOutEvent(QFocusEvent *event)
-{
-    Q_D(EDateTimeEdit);
-    QString temp = d->lineEdit->text();
-    QDateTimeEdit::focusOutEvent(event);
-    if(emptyEnabled())
-    {
-        d->lineEdit->setText(temp);
-    }
-}
-
 void EDateTimeEdit::paintEvent(QPaintEvent *event)
 {
     QDateTimeEdit::paintEvent(event);
@@ -169,16 +144,23 @@ void EDateTimeEdit::clearDisplayText()
     }
 }
 
-void EDateTimeEdit::showEvent(QShowEvent *event)
+bool EDateTimeEdit::event(QEvent *event)
 {
     Q_D(EDateTimeEdit);
     QString temp = d->lineEdit->text();
-    qDebug() << temp;
 
-    QDateTimeEdit::showEvent(event);
+    bool r = QDateTimeEdit::event(event);
 
-    if(emptyEnabled())
-    {
-        d->lineEdit->setText(temp);
+    switch (static_cast<int>(event->type())) {
+    case QEvent::Show:
+    case QEvent::Hide:
+    case QEvent::FocusOut:
+    case QEvent::FocusIn:
+        if(emptyEnabled())
+        {
+            d->lineEdit->setText(temp);
+        }
+        break;
     }
+    return r;
 }

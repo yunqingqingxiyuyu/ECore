@@ -69,15 +69,11 @@ public:
 
 protected:
 
-    virtual void focusInEvent(QFocusEvent *event) override;
-
-    virtual void focusOutEvent(QFocusEvent *event) override;
-
     virtual void keyPressEvent(QKeyEvent *event) override;
 
     virtual void paintEvent(QPaintEvent *event) override;
 
-    virtual void showEvent(QShowEvent *event) override;
+    virtual bool event(QEvent *event) override;
 
 private:
     Q_DISABLE_COPY(EDateTimeEdit);
