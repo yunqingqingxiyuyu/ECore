@@ -138,18 +138,32 @@ bool ETimeWidgetPrivate::handleTimeWidget(QObject *obj, QEvent *event)
             increment = 1;
         }
 
+        QTime tempTime = m_time;
+
         if(obj == m_hour)
         {
-           m_time = m_time.addSecs(60 * 60 * increment);
+           tempTime = tempTime.addSecs(60 * 60 * increment);
         }
         else if(obj == m_minute)
         {
-           m_time = m_time.addSecs(60 * increment);
+           tempTime = tempTime.addSecs(60 * increment);
         }
         else
         {
-            m_time = m_time.addSecs(increment);
+            tempTime = tempTime.addSecs(increment);
         }
+
+        if(maximumTime().isValid() && tempTime > maximumTime())
+        {
+            tempTime = maximumTime();
+        }
+
+        if(minimumTime().isValid() && tempTime < minimumTime())
+        {
+            tempTime = minimumTime();
+        }
+
+        m_time = tempTime;
 
         update(m_time);
 
@@ -187,4 +201,30 @@ void ETimeWidgetPrivate::update(const QTime &time)
     m_hour2->setNum(time.addSecs(hour * 1).hour());
     m_minute2->setNum(time.addSecs(minute * 1).minute());
     m_second2->setNum(time.addSecs(second * 1).second());
+}
+
+QTime ETimeWidgetPrivate::minimumTime() const
+{
+    return m_minTime;
+}
+
+QTime ETimeWidgetPrivate::maximumTime() const
+{
+    return m_maxTime;
+}
+
+void ETimeWidgetPrivate::setMinimumTime(const QTime &time)
+{
+    m_minTime = time;
+}
+
+void ETimeWidgetPrivate::setMaximumTime(const QTime &time)
+{
+    m_maxTime = time;
+}
+
+void ETimeWidgetPrivate::setTimeRange(const QTime &min, const QTime &max)
+{
+    setMinimumTime(min);
+    setMaximumTime(max);
 }

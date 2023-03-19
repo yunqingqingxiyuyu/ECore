@@ -38,12 +38,51 @@ public:
      * @return 处理时间控件事件
      */
     bool handleTimeWidget(QObject *obj, QEvent *event);
+
+    /**
+     * @brief maximumTime
+     * @return 返回时间范围的最大值
+     */
+    QTime maximumTime() const;
+
+    /**
+     * @brief minimumTime
+     * @return 返回时间范围的最小值
+     */
+    QTime minimumTime() const;
+
+    /**
+     * @brief setMinimumTime
+     * 设置时间范围最小值
+     * @param time
+     */
+    void setMinimumTime(const QTime &time);
+
+    /**
+     * @brief setMaximumTime
+     * 设置时间范围最大值
+     * @param time
+     */
+    void setMaximumTime(const QTime &time);
+
+    /**
+     * @brief setTimeRange
+     * 设置时间范围值
+     * @param min
+     * @param max
+     */
+    void setTimeRange(const QTime &min,const QTime &max);
+
 private:
 
     void update(const QTime &time);
 
 public:
-    QTime m_time;
+    QTime m_time = QTime();
+
+    QTime m_minTime = QTime();
+
+    QTime m_maxTime = QTime();
 
 private:
     QLabel *m_hour = nullptr;

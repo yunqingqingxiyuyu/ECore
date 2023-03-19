@@ -53,5 +53,34 @@ bool ETimeWidget::eventFilter(QObject *obj, QEvent *event)
     {
         return QWidget::eventFilter(obj,event);
     }
+}
 
+QTime ETimeWidget::maximumTime() const
+{
+    Q_D(const ETimeWidget);
+    return d->maximumTime();
+}
+
+QTime ETimeWidget::minimumTime() const
+{
+    Q_D(const ETimeWidget);
+    return d->minimumTime();
+}
+
+void ETimeWidget::setMinimumTime(const QTime &time)
+{
+    Q_D(ETimeWidget);
+    d->setMinimumTime(time);
+}
+
+void ETimeWidget::setMaximumTime(const QTime &time)
+{
+    Q_D(ETimeWidget);
+    d->setMaximumTime(time);
+}
+
+void ETimeWidget::setTimeRange(const QTime &min, const QTime &max)
+{
+    Q_D(ETimeWidget);
+    d->setTimeRange(min,max);
 }
