@@ -2,6 +2,7 @@
 #define ECALENDARTIMEWIDGETPRIVATE_H
 
 #include <QObject>
+#include <QDateTime>
 
 class ECalendarTimeWidget;
 class ETimeWidget;
@@ -51,6 +52,57 @@ public:
      * @return 返回恰当的大小
      */
     QSize sizeHint() const;
+
+    /**
+     * @brief maximunDateTime
+     * @return 返回的最大时间日期
+     */
+    QDateTime maximunDateTime() const;
+
+    /**
+     * @brief minimumDateTime
+     * @return 返回最小时间范围的日期时间
+     */
+    QDateTime minimumDateTime() const;
+
+    /**
+     * @brief selectedDateTime
+     * @return 返回所选的时间日期
+     */
+    QDateTime selectedDateTime() const;
+
+    /**
+     * @brief setMaximumDateTime
+     * 设置可选择的最大日期时间
+     * @param dateTime 最大日期时间
+     */
+    void setMaximumDateTime(const QDateTime &dateTime);
+
+    /**
+     * @brief setMinimumDateTime
+     * 设置可选择的最小日期时间
+     * @param dateTime
+     */
+    void setMinimumDateTime(const QDateTime &dateTime);
+
+public Q_SLOTS:
+
+    /**
+     * @brief setDateTimeRange
+     * 设置可选的日期时间范围
+     * @param min
+     * @param max
+     */
+    void setDateTimeRange(const QDateTime &min,const QDateTime &max);
+
+    /**
+     * @brief setSelectedDateTime
+     * 设置选择的日期时间
+     * @param dateTime
+     */
+    void setSelectedDateTime(const QDateTime &dateTime);
+
+
 private:
     QWidget* timeWidget() const;
 
@@ -63,6 +115,12 @@ public:
     QHBoxLayout *m_bottomLay = nullptr;
 
     QWidget *m_mainWidget = nullptr;
+
+    QDateTime m_minDateTime = QDateTime();
+
+    QDateTime m_maxDateTime = QDateTime();
+
+    QDateTime m_selectedDate = QDateTime();
 };
 
 #endif // ECALENDARTIMEWIDGETPRIVATE_H

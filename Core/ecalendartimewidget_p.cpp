@@ -78,3 +78,42 @@ QSize ECalendarTimeWidgetPrivate::sizeHint() const
 {
     return m_mainWidget->sizeHint();
 }
+
+QDateTime ECalendarTimeWidgetPrivate::minimumDateTime() const
+{
+    return m_minDateTime;
+}
+
+QDateTime ECalendarTimeWidgetPrivate::maximunDateTime() const
+{
+    return m_maxDateTime;
+}
+
+QDateTime ECalendarTimeWidgetPrivate::selectedDateTime() const
+{
+    return m_selectedDate;
+}
+
+void ECalendarTimeWidgetPrivate::setMinimumDateTime(const QDateTime &dateTime)
+{
+    m_minDateTime = dateTime;
+    if(m_timeWidget)
+    {
+    }
+}
+
+void ECalendarTimeWidgetPrivate::setMaximumDateTime(const QDateTime &dateTime)
+{
+    m_maxDateTime = dateTime;
+}
+
+void ECalendarTimeWidgetPrivate::setDateTimeRange(const QDateTime &min,const QDateTime &max)
+{
+    setMinimumDateTime(min);
+    setMaximumDateTime(max);
+}
+
+void ECalendarTimeWidgetPrivate::setSelectedDateTime(const QDateTime &dateTime)
+{
+    m_selectedDate = dateTime;
+}

@@ -164,3 +164,51 @@ bool EDateTimeEdit::event(QEvent *event)
     }
     return r;
 }
+
+QDateTime EDateTimeEdit::maximunDateTime() const
+{
+    Q_D(const EDateTimeEdit);
+    return d->maximunDateTime();
+}
+
+QDateTime EDateTimeEdit::minimumDateTime() const
+{
+    Q_D(const EDateTimeEdit);
+    return d->minimumDateTime();
+}
+
+void EDateTimeEdit::setMaximumDateTime(const QDateTime &dateTime)
+{
+    Q_D(EDateTimeEdit);
+    d->setMaximumDateTime(dateTime);
+}
+
+void EDateTimeEdit::setMinimumDateTime(const QDateTime &dateTime)
+{
+    Q_D(EDateTimeEdit);
+    d->setMinimumDateTime(dateTime);
+}
+
+void EDateTimeEdit::setDateTimeRange(const QDateTime &min,const QDateTime &max)
+{
+    setMinimumDateTime(min);
+    setMaximumDateTime(max);
+}
+
+void EDateTimeEdit::setSelectedDateTime(const QDateTime &dateTime)
+{
+    Q_D(EDateTimeEdit);
+    d->setSelectedDateTime(dateTime);
+}
+
+void EDateTimeEdit::setCalendarWidget(ECalendarTimeWidget *calendarTimeWidget)
+{
+    Q_D(EDateTimeEdit);
+    d->setCalendarTimeWidget(calendarTimeWidget);
+}
+
+ECalendarTimeWidget* EDateTimeEdit::calendarTimeWidget() const
+{
+    Q_D(const EDateTimeEdit);
+    return d->calendarTimeWidget();
+}

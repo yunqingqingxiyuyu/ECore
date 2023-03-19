@@ -61,3 +61,39 @@ void ECalendarTimeWidget::setCleanButtonText(const QString &text)
     Q_D(ECalendarTimeWidget);
     d->setCleanButtonText(text);
 }
+
+QDateTime ECalendarTimeWidget::maximunDateTime() const
+{
+    Q_D(const ECalendarTimeWidget);
+    return d->maximunDateTime();
+}
+
+QDateTime ECalendarTimeWidget::minimumDateTime() const
+{
+    Q_D(const ECalendarTimeWidget);
+    return d->minimumDateTime();
+}
+
+void ECalendarTimeWidget::setMaximumDateTime(const QDateTime &dateTime)
+{
+    Q_D(ECalendarTimeWidget);
+    d->setMaximumDateTime(dateTime);
+}
+
+void ECalendarTimeWidget::setMinimumDateTime(const QDateTime &dateTime)
+{
+    Q_D(ECalendarTimeWidget);
+    d->setMinimumDateTime(dateTime);
+}
+
+void ECalendarTimeWidget::setDateTimeRange(const QDateTime &min,const QDateTime &max)
+{
+    Q_D(ECalendarTimeWidget);
+    d->setDateTimeRange(min,max);
+}
+
+void ECalendarTimeWidget::setSelectedDateTime(const QDateTime &dateTime)
+{
+    Q_D(ECalendarTimeWidget);
+    d->setSelectedDateTime(dateTime);
+}
