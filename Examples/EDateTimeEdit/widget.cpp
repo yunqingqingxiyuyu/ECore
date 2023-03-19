@@ -25,10 +25,26 @@ Widget::Widget(QWidget *parent)
     edit->clearDisplayText();
     qDebug() << edit->text();
 
+    EDateTimeEdit *edit2 = new EDateTimeEdit(this);
+    edit2->clearDisplayText();
+    qDebug() << edit2->text();
+
     ECalendarTimeWidget * t = new ECalendarTimeWidget;
 
     edit->setCalendarPopup(true);
     edit->setCalendarWidget(t);
+
+    connect(t,&ECalendarTimeWidget::cleanButtonClicked,this,[=](){
+        qDebug() << QStringLiteral("清空按钮被触发");
+    });
+
+
+    ECalendarTimeWidget * t2 = new ECalendarTimeWidget;
+    t2->setCleanButton(nullptr);
+
+    edit2->setCalendarPopup(true);
+    edit2->setCalendarWidget(t2);
+
 
     QPushButton *button = new QPushButton;
     QPushButton *button2 = new QPushButton("111111111");
@@ -39,6 +55,7 @@ Widget::Widget(QWidget *parent)
     QVBoxLayout *lay = new QVBoxLayout;
 
     lay->addWidget(edit);
+    lay->addWidget(edit2);
     lay->addWidget(button);
     lay->addWidget(button2);
     lay->addWidget(w);
@@ -68,9 +85,6 @@ Widget::Widget(QWidget *parent)
 
          edit->setDisplayFormat("yyyy-MM-dd");
          qDebug() << edit->displayFormat() << endl ;
-    });
-
-    connect(edit,&EDateTimeEdit::dateTimeChanged,this,[=](const QDateTime &dateTime){
     });
 
     connect(button2,&QPushButton::clicked,this,[=](){

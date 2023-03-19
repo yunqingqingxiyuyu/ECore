@@ -49,3 +49,15 @@ QTime ECalendarTimeWidget::time() const
     Q_D(const ECalendarTimeWidget);
     return d->time();
 }
+
+void ECalendarTimeWidget::setCleanButton(QPushButton *button)
+{
+    Q_D(ECalendarTimeWidget);
+    d->setCleanButton(button);
+}
+
+void ECalendarTimeWidget::setCleanButtonText(const QString &text)
+{
+    Q_D(ECalendarTimeWidget);
+    d->setCleanButtonText(text);
+}
