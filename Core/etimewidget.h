@@ -9,6 +9,7 @@ class CORE_EXPORT ETimeWidget : public QWidget
 {
     Q_OBJECT
 public:
+    explicit ETimeWidget(QWidget *parent = nullptr);
     explicit ETimeWidget(const QTime &time,QWidget *parent = nullptr);
     ~ETimeWidget();
 

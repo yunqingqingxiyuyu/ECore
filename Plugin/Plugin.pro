@@ -1,15 +1,43 @@
+CONFIG += plugin debug_and_release
+
+CONFIG(debug, debug|release) {
+        TARGET =$$qtLibraryTarget(ECorePlugind)
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+    DESTDIR = $$PWD/../Lib/ECorePlugind_msvc
+
+}else{
+    DESTDIR = $$PWD/../Lib/ECorePlugind
+}
+
+} else {
+        TARGET = $$qtLibraryTarget(ECorePlugin)
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+    DESTDIR = $$PWD/../Lib/ECorePlugin_msvc
+
+}else{
+    DESTDIR = $$PWD/../Lib/ECorePlugin
+}
+}
+
 QT += gui widgets uiplugin
 
-include($$PWD/Plugin.pri)
-
-TARGET = ECorePlugin
-DESTDIR = $$PWD/../ECorePlugin
-
-CONFIG += plugin
 TEMPLATE = lib
-DEFINES += PLUGIN_LIBRARY
 
+DEFINES += PLUGIN_LIBRARY
 DEFINES += CORE_LIBRARY
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += designer
+} else {
+    CONFIG += designer
+}
+
+
+LIBS        += -L.
 
 CONFIG += c++11
 
@@ -25,17 +53,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    elineeditplugin.cpp
+    elineeditplugin.cpp \
+    etimewidgetplugin.cpp \
+    plugincollection.cpp
 
 
 
 HEADERS += \
     Plugin_global.h \
-    elineeditplugin.h
+    elineeditplugin.h \
+    etimewidgetplugin.h \
+    plugincollection.h
 
 # Default rules for deployment.
 unix {
     target.path = /usr/lib
 }
+
+win32 {
+        target.path = $$[QT_INSTALL_PLUGINS]/designer
+}
+
+
 !isEmpty(target.path): INSTALLS += target
+
+include($$PWD/Plugin.pri)
+
+RESOURCES += \
+    icons.qrc
 
