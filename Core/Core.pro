@@ -57,7 +57,13 @@ SOURCES += \
     esecretcombobox_p.cpp \
     esingleton.cpp \
     etimewidget.cpp \
-    etimewidget_p.cpp
+    etimewidget_p.cpp \
+    etreemodel.cpp \
+    etreemodel_p.cpp \
+    etreewidget.cpp \
+    etreewidget_p.cpp \
+    ewidgetitem.cpp \
+    ewidgetitem_p.cpp
 
 HEADERS += \
     core_global.h \
@@ -73,7 +79,14 @@ HEADERS += \
     esecretcombobox_p.h \
     esingleton.h \
     etimewidget.h \
-    etimewidget_p.h
+    etimewidget_p.h \
+    etreemodel.h \
+    etreemodel_p.h \
+    etreewidget.h \
+    etreewidget_p.h \
+    etreewidgetitem.h \
+    ewidgetitem.h \
+    ewidgetitem_p.h
 
 # Default rules for deployment.
 unix {
