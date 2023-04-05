@@ -80,31 +80,6 @@ void EDateTimeEdit::keyPressEvent(QKeyEvent *event)
     return QDateTimeEdit::keyPressEvent(event);
 }
 
-void EDateTimeEdit::focusInEvent(QFocusEvent *event)
-{
-    Q_D(EDateTimeEdit);
-    QString temp = d->lineEdit->text();
-    if(emptyEnabled())
-    {
-        d->lineEdit->setText(temp);
-    }
-    else
-    {
-        QDateTimeEdit::focusInEvent(event);
-    }
-}
-
-void EDateTimeEdit::focusOutEvent(QFocusEvent *event)
-{
-    Q_D(EDateTimeEdit);
-    QString temp = d->lineEdit->text();
-    QDateTimeEdit::focusOutEvent(event);
-    if(emptyEnabled())
-    {
-        d->lineEdit->setText(temp);
-    }
-}
-
 void EDateTimeEdit::paintEvent(QPaintEvent *event)
 {
     QDateTimeEdit::paintEvent(event);
@@ -169,16 +144,71 @@ void EDateTimeEdit::clearDisplayText()
     }
 }
 
-void EDateTimeEdit::showEvent(QShowEvent *event)
+bool EDateTimeEdit::event(QEvent *event)
 {
     Q_D(EDateTimeEdit);
     QString temp = d->lineEdit->text();
-    qDebug() << temp;
 
-    QDateTimeEdit::showEvent(event);
+    bool r = QDateTimeEdit::event(event);
 
-    if(emptyEnabled())
-    {
-        d->lineEdit->setText(temp);
+    switch (static_cast<int>(event->type())) {
+    case QEvent::Show:
+    case QEvent::Hide:
+    case QEvent::FocusOut:
+    case QEvent::FocusIn:
+        if(emptyEnabled())
+        {
+            d->lineEdit->setText(temp);
+        }
+        break;
     }
+    return r;
+}
+
+QDateTime EDateTimeEdit::maximunDateTime() const
+{
+    Q_D(const EDateTimeEdit);
+    return d->maximunDateTime();
+}
+
+QDateTime EDateTimeEdit::minimumDateTime() const
+{
+    Q_D(const EDateTimeEdit);
+    return d->minimumDateTime();
+}
+
+void EDateTimeEdit::setMaximumDateTime(const QDateTime &dateTime)
+{
+    Q_D(EDateTimeEdit);
+    d->setMaximumDateTime(dateTime);
+}
+
+void EDateTimeEdit::setMinimumDateTime(const QDateTime &dateTime)
+{
+    Q_D(EDateTimeEdit);
+    d->setMinimumDateTime(dateTime);
+}
+
+void EDateTimeEdit::setDateTimeRange(const QDateTime &min,const QDateTime &max)
+{
+    setMinimumDateTime(min);
+    setMaximumDateTime(max);
+}
+
+void EDateTimeEdit::setSelectedDateTime(const QDateTime &dateTime)
+{
+    Q_D(EDateTimeEdit);
+    d->setSelectedDateTime(dateTime);
+}
+
+void EDateTimeEdit::setCalendarWidget(ECalendarTimeWidget *calendarTimeWidget)
+{
+    Q_D(EDateTimeEdit);
+    d->setCalendarTimeWidget(calendarTimeWidget);
+}
+
+ECalendarTimeWidget* EDateTimeEdit::calendarTimeWidget() const
+{
+    Q_D(const EDateTimeEdit);
+    return d->calendarTimeWidget();
 }

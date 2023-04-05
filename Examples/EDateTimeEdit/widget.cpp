@@ -29,6 +29,16 @@ Widget::Widget(QWidget *parent)
 
     edit->setCalendarPopup(true);
     edit->setCalendarWidget(t);
+    qDebug() << __FUNCTION__ << QDateTime::currentDateTime().addYears(-2) << edit->minimumDate();
+    edit->setDateTimeRange(QDateTime::currentDateTime().addYears(-2),QDateTime::currentDateTime().addYears(2));
+    qDebug() << __FUNCTION__ << QDateTime::currentDateTime().addYears(-2) << edit->minimumDate();
+
+    connect(t,&ECalendarTimeWidget::cleanButtonClicked,this,[=](){
+        qDebug() << QStringLiteral("清空按钮被触发");
+    });
+
+
+
 
     QPushButton *button = new QPushButton;
     QPushButton *button2 = new QPushButton("111111111");
@@ -68,9 +78,6 @@ Widget::Widget(QWidget *parent)
 
          edit->setDisplayFormat("yyyy-MM-dd");
          qDebug() << edit->displayFormat() << endl ;
-    });
-
-    connect(edit,&EDateTimeEdit::dateTimeChanged,this,[=](const QDateTime &dateTime){
     });
 
     connect(button2,&QPushButton::clicked,this,[=](){

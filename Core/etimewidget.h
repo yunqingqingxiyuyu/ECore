@@ -27,6 +27,40 @@ public:
      */
     void setTime(const QTime &time);
 
+    /**
+     * @brief maximumTime
+     * @return 返回时间范围的最大值
+     */
+    QTime maximumTime() const;
+
+    /**
+     * @brief minimumTime
+     * @return 返回时间范围的最小值
+     */
+    QTime minimumTime() const;
+
+    /**
+     * @brief setMinimumTime
+     * 设置时间范围最小值
+     * @param time
+     */
+    void setMinimumTime(const QTime &time);
+
+    /**
+     * @brief setMaximumTime
+     * 设置时间范围最大值
+     * @param time
+     */
+    void setMaximumTime(const QTime &time);
+
+    /**
+     * @brief setTimeRange
+     * 设置时间范围值
+     * @param min
+     * @param max
+     */
+    void setTimeRange(const QTime &min,const QTime &max);
+
 signals:
 
     /**
