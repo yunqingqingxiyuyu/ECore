@@ -1,6 +1,7 @@
 #include "etreewidget.h"
 
-ETreeWidget::ETreeWidget()
+ETreeWidget::ETreeWidget(QTreeView * parent):
+    QTreeView(parent)
 {
 
 }
