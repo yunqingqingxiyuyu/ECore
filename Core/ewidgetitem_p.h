@@ -24,11 +24,19 @@ public:
 
     }
 
+    friend class EWidgetItem;
+
+private:
+
     QVariantList display;
     uint disabled : 1;
     uint selected : 1;
     uint hidden : 1;
     int rowGuess;
+
+    QVector<EWidgetItem*> m_childItems;
+    QVector<QVariant> m_itemData;
+    EWidgetItem *m_parentItem;
 };
 
 #endif // EWIDGETITEMPRIVATE_H

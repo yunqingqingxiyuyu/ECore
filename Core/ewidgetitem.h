@@ -24,6 +24,12 @@ public:
     EWidgetItem* child(int number) const;
 
     /**
+     * @brief children
+     * @return 孩子对象
+     */
+    QVector<EWidgetItem *> children() const;
+
+    /**
      * @brief childCount
      * @return 返回子节点的个数
      */
@@ -50,14 +56,49 @@ public:
     QVariant data(int column,int role) const;
 
 
+    /**
+     * @brief parent
+     * @return 返回父节点
+     */
+    EWidgetItem* parent() const;
 
+    /**
+     * @brief insertChilder
+     * @param row
+     * @param count
+     * @param columns
+     * @return
+     */
+    bool insertChildren(int row,int count ,int columns);
 
+    /**
+     * @brief insertColumns
+     * @param column
+     * @param count
+     * @return
+     */
+    bool insertColumns(int column,int count);
+
+    /**
+     * @brief removeChild
+     * @param column
+     * @param count
+     * @return
+     */
+    bool removeChildren(int column,int count);
+
+    /**
+     * @brief removeColumns
+     * @param column
+     * @param count
+     * @return
+     */
+    bool removeColumns(int column,int count);
+
+    bool setData(int column, const QVariant &variant);
 private:
     Q_DECLARE_D(EWidgetItem);
     Q_DECLARE_PRIVATE(EWidgetItem);
-    QVector<EWidgetItem*> m_childItems;
-    QVector<QVariant> m_itemData;
-    EWidgetItem *m_parentItem;
 };
 
 #endif // EWIDGETITEM_H
