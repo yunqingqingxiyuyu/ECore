@@ -1,13 +1,14 @@
 #ifndef ETREEMODEL_H
 #define ETREEMODEL_H
 
+#include "core_global.h"
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
 
 class EWidgetItem;
 
-class ETreeModel : public QAbstractItemModel
+class CORE_EXPORT ETreeModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -20,6 +21,13 @@ public:
      * @return 返回列的数量
      */
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+
+    /**
+     * @brief rowCount
+     * @param parent
+     * @return 返回行数量
+     */
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /**
      * @brief data

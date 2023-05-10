@@ -25,6 +25,12 @@ EWidgetItem* EWidgetItem::child(int number) const
     return d->m_childItems.at(number);
 }
 
+void EWidgetItem::appendChild(EWidgetItem *item)
+{
+    Q_D(EWidgetItem);
+    d->m_childItems.append(item);
+}
+
 QVector<EWidgetItem *> EWidgetItem::children() const
 {
     Q_D(const EWidgetItem);
@@ -69,6 +75,14 @@ EWidgetItem* EWidgetItem::parent() const
     return d->m_parentItem;
 }
 
+int EWidgetItem::row() const
+{
+    Q_D(const EWidgetItem);
+    if(d->m_parentItem)
+        return d->m_parentItem->children().indexOf(const_cast<EWidgetItem *>(this));
+
+    return 0;
+}
 
 bool EWidgetItem::insertChildren(int row, int count, int columns)
 {

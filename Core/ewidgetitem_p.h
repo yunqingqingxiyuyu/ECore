@@ -36,7 +36,7 @@ private:
 
     QVector<EWidgetItem*> m_childItems;
     QVector<QVariant> m_itemData;
-    EWidgetItem *m_parentItem;
+    EWidgetItem *m_parentItem = nullptr;
 };
 
 #endif // EWIDGETITEMPRIVATE_H

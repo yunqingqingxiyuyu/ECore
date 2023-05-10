@@ -3,12 +3,14 @@
 #include "ewidgetitem.h"
 
 #include <QJsonArray>
+#include <QDebug>
 #include <QJsonObject>
 
 ETreeModel::ETreeModel(QObject *parent):
     QAbstractItemModel(parent)
 {
-
+    QVector<QVariant> va{tr("Title"), tr("Summary")};
+    m_rootItem = new EWidgetItem(va);
 }
 
 ETreeModel::~ETreeModel()
@@ -18,8 +20,26 @@ ETreeModel::~ETreeModel()
 
 int ETreeModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+    if(parent.isValid())
+        return static_cast<EWidgetItem *>(parent.internalPointer())->colmnCount();
     return m_rootItem->colmnCount();
+}
+
+int ETreeModel::rowCount(const QModelIndex &parent) const
+{
+    EWidgetItem *parentItem;
+    if (parent.column() > 0)
+        return 0;
+
+    if (!parent.isValid())
+        parentItem = m_rootItem;
+    else
+        parentItem = static_cast<EWidgetItem*>(parent.internalPointer());
+
+    if(parentItem)
+        return parentItem->childCount();
+    else
+        return m_rootItem->childCount();
 }
 
 QVariant ETreeModel::data(const QModelIndex &index, int role) const
@@ -31,11 +51,13 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case Qt::EditRole:
     {
+        auto *item = static_cast<EWidgetItem *>(index.internalPointer());
+        return item->data(index.column(),role);
         break;
     }
+    default:
+        return QVariant();
     }
-
-    return QVariant();
 }
 
 Qt::ItemFlags ETreeModel::flags(const QModelIndex &index) const
@@ -43,7 +65,7 @@ Qt::ItemFlags ETreeModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    return Qt::ItemIsEditable | QAbstractItemModel::flags(index);
+    return QAbstractItemModel::flags(index);
 }
 
 EWidgetItem* ETreeModel::getItem(const QModelIndex &index) const
@@ -53,24 +75,26 @@ EWidgetItem* ETreeModel::getItem(const QModelIndex &index) const
         EWidgetItem *item = static_cast<EWidgetItem*>(index.internalPointer());
         if (item)
             return item;
+        return nullptr;
     }
     return m_rootItem;
 }
 
 QVariant ETreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    Q_UNUSED(orientation);
-    if(m_rootItem)
+    if (orientation == Qt::Horizontal && m_rootItem)
         return m_rootItem->data(section,role);
+
     return QVariant();
 }
 
 
 QModelIndex ETreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if(parent.isValid() && parent.column() !=0)
-        return QModelIndex();
+//    if(!parent.isValid() && parent.column() !=0)
+//        return QModelIndex();
 
+    qDebug() << 12;
     EWidgetItem *parentItem = getItem(parent);
     if(!parentItem)
         return QModelIndex();
@@ -140,7 +164,7 @@ bool ETreeModel::removeColumns(int column, int count, const QModelIndex &parent)
     const bool success = m_rootItem->removeColumns(column,count);
     endRemoveColumns();
 
-    if(m_rootItem->colmnCount() == 0)
+    if(m_rootItem && m_rootItem->colmnCount() == 0)
         removeRows(0 , rowCount());
 
     return success;
@@ -179,12 +203,17 @@ void ETreeModel::setupModelData(const QJsonArray &array)
     for(int row = 0; row < array.size(); ++row)
     {
         QJsonObject temp = array.at(row).toObject();
-        QString parentID = temp.value("parentId").toString();
+        QString parentID = temp.value("parent_dd").toString();
         QString id = temp.value("id").toString();
-        QString content = temp.value("content").toString();
+        QString content = temp.value("name").toString();
 
-        auto parentItem = topItems.value(parentID,nullptr);
+        QVector<QVariant > data;
+        data << content;
+        auto parentItem = new EWidgetItem(data);
         if(parentItem)
             parentItem->insertChildren(parentItem->childCount(),1,m_rootItem->colmnCount());
+        parentItem->setData(0,content);
+        m_rootItem->appendChild(parentItem);
+        qDebug() << parentItem->data(0,Qt::DisplayRole) << m_rootItem->row() << m_rootItem->colmnCount() << m_rootItem->childCount() << content;
     }
 }

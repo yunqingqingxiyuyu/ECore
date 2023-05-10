@@ -30,7 +30,8 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+
 include($$PWD/../Examples.pri)
 
-DISTFILES += \
-    tree_json.json
+RESOURCES += \
+    resources.qrc

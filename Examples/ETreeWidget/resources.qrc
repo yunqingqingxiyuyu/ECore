@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>tree_json.json</file>
+    </qresource>
+</RCC>

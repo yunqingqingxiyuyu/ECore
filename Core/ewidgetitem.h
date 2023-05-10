@@ -13,7 +13,7 @@ class CORE_EXPORT EWidgetItem
 public:
     enum ItemType{Type = 0, UserType = 1000};
 
-    explicit EWidgetItem(const QVector<QVariant > &datam,EWidgetItem *parent);
+    explicit EWidgetItem(const QVector<QVariant > &datam,EWidgetItem *parent = nullptr);
     ~EWidgetItem();
 
     /**
@@ -22,6 +22,13 @@ public:
      * @return 返回number的子节点，如果number位置的节点不存在则返回nullptr。
      */
     EWidgetItem* child(int number) const;
+
+    /**
+     * @brief appendChildd
+     * 添加子节点
+     * @param item
+     */
+    void appendChild(EWidgetItem *item);
 
     /**
      * @brief children
@@ -61,6 +68,12 @@ public:
      * @return 返回父节点
      */
     EWidgetItem* parent() const;
+
+    /**
+     * @brief row
+     * @return
+     */
+    int row() const;
 
     /**
      * @brief insertChilder

@@ -4,6 +4,6 @@ SUBDIRS += \
     EDateTimeEdit \
     ESecreteComboBox \
     ESingleton \
-    ETreeWidget/ETreeWidget \
+    ETreeWidget \
     ElineEdit \
     ELoadingWidget
