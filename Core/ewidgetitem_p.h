@@ -35,7 +35,13 @@ private:
     int rowGuess;
 
     QVector<EWidgetItem*> m_childItems;
+    //存显示数据
     QVector<QVariant> m_itemData;
+    //存除了显示Qt::DisplayRole之外的其他角色数据
+    QVector<QHash<int ,QVariant>> m_itemRoleData;
+    //存状态数据
+    QVector<QHash<QString,QVariant>> m_itemStatData;
+
     EWidgetItem *m_parentItem = nullptr;
 };
 

@@ -70,6 +70,13 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
 
 
+    /**
+     * @brief insertColumns
+     * @param column
+     * @param count
+     * @param parent
+     * @return
+     */
     bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
 
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
@@ -85,8 +92,25 @@ public:
     bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
 
     void setupModelData(const QJsonArray &array);
+
+    void setupModelData(const QJsonArray &array,EWidgetItem *parentItem);
 private:
     EWidgetItem *m_rootItem = nullptr;
+
+    //属性别名映射表，这么做的目的是在解析json时可以以别名取json中key(对应alias):value
+    QHash<QString ,QString> propertyToAlias{
+        {"paretID","parentID"},
+        {"children","children"},
+        {"id","id"},
+        {"content","name"}
+    };
+
+    //状态
+    QHash<QString,QString> statToAlias{
+
+    };
+
+
 };
 
 #endif // ETREEMODEL_H

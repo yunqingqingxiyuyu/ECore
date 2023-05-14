@@ -2,12 +2,12 @@
 
 #include "ewidgetitem_p.h"
 
-EWidgetItem::EWidgetItem(const QVector<QVariant > &data,EWidgetItem *parent):
+EWidgetItem::EWidgetItem(EWidgetItem *parent) :
     d_ptr(new EWidgetItemPrivate(this))
 {
     Q_D(EWidgetItem);
-    d->m_itemData = data;
     d->m_parentItem = parent;
+    insertColumns(0,1);
 }
 
 EWidgetItem::~EWidgetItem()
@@ -28,6 +28,9 @@ EWidgetItem* EWidgetItem::child(int number) const
 void EWidgetItem::appendChild(EWidgetItem *item)
 {
     Q_D(EWidgetItem);
+    if(!item)
+        return ;
+    item->setParent(this);
     d->m_childItems.append(item);
 }
 
@@ -58,14 +61,34 @@ int EWidgetItem::colmnCount() const
     return d->m_itemData.count();
 }
 
+void EWidgetItem::setColumnCount(int count)
+{
+    Q_D(EWidgetItem);
+    for(int column = d->m_itemData.size(); column < count; ++column)
+        d->m_itemData.append(QVariant());
+
+    removeColumns(count - 1,d->m_itemData.size() - count);
+}
+
 QVariant EWidgetItem::data(int column,int role) const
 {
     Q_D(const EWidgetItem);
-    Q_UNUSED(role);
-    if(column < 0 || column >= d->m_itemData.size())
-        return QVariant();
 
-    return d->m_itemData.at(column);
+    switch (role) {
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+        if(column < 0 || column >= d->m_itemData.size())
+            return QVariant();
+        else
+            return d->m_itemData[column];
+    default:
+        if(column < 0 || column >= d->m_itemRoleData.size())
+            return QVariant();
+        else
+            return d->m_itemRoleData[column][role];
+    }
+
+    return QVariant();
 }
 
 
@@ -73,6 +96,12 @@ EWidgetItem* EWidgetItem::parent() const
 {
     Q_D(const EWidgetItem);
     return d->m_parentItem;
+}
+
+void EWidgetItem::setParent(EWidgetItem *parent)
+{
+    Q_D(EWidgetItem);
+    d->m_parentItem = parent;
 }
 
 int EWidgetItem::row() const
@@ -84,7 +113,7 @@ int EWidgetItem::row() const
     return 0;
 }
 
-bool EWidgetItem::insertChildren(int row, int count, int columns)
+bool EWidgetItem::insertChildren(int row, int count)
 {
     Q_D(EWidgetItem);
     if(row < 0 || row > d->m_childItems.size())
@@ -92,8 +121,8 @@ bool EWidgetItem::insertChildren(int row, int count, int columns)
 
     for(int tempRow = 0; tempRow < count; ++tempRow)
     {
-        QVector<QVariant> data(columns);
-        EWidgetItem *item = new EWidgetItem(data,this);
+        EWidgetItem *item = new EWidgetItem(this);
+        item->setColumnCount(this->colmnCount());
         d->m_childItems.insert(row,item);
     }
 
@@ -104,8 +133,6 @@ bool EWidgetItem::insertChildren(int row, int count, int columns)
 bool EWidgetItem::insertColumns(int column, int count)
 {
     Q_D(EWidgetItem);
-    if(column < 0  || column > d->m_itemData.size())
-        return false;
 
     for(int tempColumn = 0; tempColumn < count; ++tempColumn)
         d->m_itemData.insert(column,QVariant());
@@ -135,7 +162,7 @@ bool EWidgetItem::removeColumns(int column, int count)
     if(column < 0 || column + count > d->m_itemData.size())
         return false;
 
-    for(int tempColumn = 0; tempColumn < count; ++tempColumn)
+    for(int tempColumn = column; tempColumn < count; ++tempColumn)
         d->m_itemData.remove(column);
 
     for(auto *child : qAsConst(d->m_childItems))
@@ -145,13 +172,27 @@ bool EWidgetItem::removeColumns(int column, int count)
 
 }
 
-bool EWidgetItem::setData(int column, const QVariant &value)
+bool EWidgetItem::setData(int column, const QVariant &value,int role)
 {
     Q_D(EWidgetItem);
-    if(column < 0 || column >= d->m_itemData.size())
-        return false;
 
-    d->m_itemData[column] = value;
+   bool flag = false;
+    do{
+        if(role == Qt::DisplayRole || role == Qt::EditRole)
+        {
+            if(column < 0 || column >= d->m_itemData.size())
+                break;
+            d->m_itemData[column] = value;
+            flag = true;
+        }
+        else
+        {
+            if(column < 0 || column >= d->m_itemRoleData.size())
+                break;
+            flag = true;
+            d->m_itemRoleData[column][role] = value;
+        }
+    }while(false);
 
-    return true;
+    return flag;
 }

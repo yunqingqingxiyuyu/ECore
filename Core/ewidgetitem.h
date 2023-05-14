@@ -13,7 +13,7 @@ class CORE_EXPORT EWidgetItem
 public:
     enum ItemType{Type = 0, UserType = 1000};
 
-    explicit EWidgetItem(const QVector<QVariant > &datam,EWidgetItem *parent = nullptr);
+    explicit EWidgetItem(EWidgetItem *parent = nullptr);
     ~EWidgetItem();
 
     /**
@@ -54,13 +54,20 @@ public:
      */
     int colmnCount() const;
 
+    /**
+     * @brief setColumnCount
+     * 设置列的数量
+     * @param count
+     */
+    void setColumnCount(int count);
+
 
     /**
      * @brief data
      * @param column
      * @return 返回column的数据
      */
-    QVariant data(int column,int role) const;
+    QVariant data(int column,int role = Qt::DisplayRole) const;
 
 
     /**
@@ -68,6 +75,13 @@ public:
      * @return 返回父节点
      */
     EWidgetItem* parent() const;
+
+    /**
+     * @brief setParent
+     * 设置父节点
+     * @param parent
+     */
+    void setParent(EWidgetItem *parent);
 
     /**
      * @brief row
@@ -79,10 +93,9 @@ public:
      * @brief insertChilder
      * @param row
      * @param count
-     * @param columns
      * @return
      */
-    bool insertChildren(int row,int count ,int columns);
+    bool insertChildren(int row,int count);
 
     /**
      * @brief insertColumns
@@ -108,7 +121,7 @@ public:
      */
     bool removeColumns(int column,int count);
 
-    bool setData(int column, const QVariant &variant);
+    bool setData(int column, const QVariant &variant,int role = Qt::DisplayRole);
 private:
     Q_DECLARE_D(EWidgetItem);
     Q_DECLARE_PRIVATE(EWidgetItem);

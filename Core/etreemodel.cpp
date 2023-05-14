@@ -10,7 +10,7 @@ ETreeModel::ETreeModel(QObject *parent):
     QAbstractItemModel(parent)
 {
     QVector<QVariant> va{tr("Title"), tr("Summary")};
-    m_rootItem = new EWidgetItem(va);
+    m_rootItem = new EWidgetItem();
 }
 
 ETreeModel::~ETreeModel()
@@ -70,7 +70,7 @@ Qt::ItemFlags ETreeModel::flags(const QModelIndex &index) const
 
 EWidgetItem* ETreeModel::getItem(const QModelIndex &index) const
 {
-    if (index.isValid())
+    if(index.isValid())
     {
         EWidgetItem *item = static_cast<EWidgetItem*>(index.internalPointer());
         if (item)
@@ -91,10 +91,6 @@ QVariant ETreeModel::headerData(int section, Qt::Orientation orientation, int ro
 
 QModelIndex ETreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-//    if(!parent.isValid() && parent.column() !=0)
-//        return QModelIndex();
-
-    qDebug() << 12;
     EWidgetItem *parentItem = getItem(parent);
     if(!parentItem)
         return QModelIndex();
@@ -115,8 +111,8 @@ bool ETreeModel::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(parent,row,row + count - 1);
 
     const bool success = parentItem->insertChildren(row,
-                                               count,
-                                               m_rootItem->colmnCount());
+                                               count
+                                               );
 
     endInsertRows();
 
@@ -199,21 +195,36 @@ bool ETreeModel::setHeaderData(int section, Qt::Orientation orientation, const Q
 
 void ETreeModel::setupModelData(const QJsonArray &array)
 {
-    QMap<QString ,EWidgetItem *> topItems;
+    setupModelData(array,m_rootItem);
+}
+
+
+void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem)
+{
     for(int row = 0; row < array.size(); ++row)
     {
         QJsonObject temp = array.at(row).toObject();
-        QString parentID = temp.value("parent_dd").toString();
-        QString id = temp.value("id").toString();
-        QString content = temp.value("name").toString();
 
-        QVector<QVariant > data;
-        data << content;
-        auto parentItem = new EWidgetItem(data);
-        if(parentItem)
-            parentItem->insertChildren(parentItem->childCount(),1,m_rootItem->colmnCount());
-        parentItem->setData(0,content);
-        m_rootItem->appendChild(parentItem);
-        qDebug() << parentItem->data(0,Qt::DisplayRole) << m_rootItem->row() << m_rootItem->colmnCount() << m_rootItem->childCount() << content;
+        auto *newItem = new EWidgetItem();
+        newItem->setColumnCount(2);
+        for(auto iter = propertyToAlias.constBegin(); iter != propertyToAlias.constEnd(); ++iter)
+        {
+            QString propery = iter.key();
+            QString alias = iter.value();
+
+            if(alias.isEmpty())
+                continue;
+
+            if(propery == "content")
+            {
+                newItem->setData(0,temp.value(alias).toVariant());
+                newItem->setData(1,"2column");
+            }
+            else if(propery == "children")
+            {
+                setupModelData(temp.value(alias).toArray(),newItem);
+            }
+        }
+        parentItem->appendChild(newItem);
     }
 }
