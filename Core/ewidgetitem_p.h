@@ -41,6 +41,9 @@ private:
     QVector<QHash<int ,QVariant>> m_itemRoleData;
     //存状态数据
     QVector<QHash<QString,QVariant>> m_itemStatData;
+    //
+    QVector<QBrush> m_background;
+    QVector<QBrush> m_foreground;
 
     EWidgetItem *m_parentItem = nullptr;
 };

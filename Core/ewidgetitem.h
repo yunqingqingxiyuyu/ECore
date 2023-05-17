@@ -16,12 +16,12 @@ public:
     explicit EWidgetItem(EWidgetItem *parent = nullptr);
     ~EWidgetItem();
 
+
     /**
-     * @brief child
-     * @param number
-     * @return 返回number的子节点，如果number位置的节点不存在则返回nullptr。
+     * @brief addChild
+     * @param item
      */
-    EWidgetItem* child(int number) const;
+    void addChild(EWidgetItem *item);
 
     /**
      * @brief appendChildd
@@ -29,6 +29,49 @@ public:
      * @param item
      */
     void appendChild(EWidgetItem *item);
+
+    /**
+     * @brief appendChildren
+     * 添加子节点
+     * @param children
+     */
+    void appendChildren(const QVector<EWidgetItem *> &childre);
+
+    /**
+     * @brief background
+     * @return 返回column列的brush
+     */
+    QBrush backgroundBrush(int column) const;
+
+    /**
+     * @brief setBackgroun
+     * 设置columnn列的背景brush
+     * @param column
+     * @param brush
+     */
+    void setBackgroudBrush(int column , const QBrush	&brush);
+
+
+    /**
+     * @brief forebackgroundBrush
+     * @param column
+     * @return
+     */
+    QBrush forebackgroundBrush(int column) const;
+
+    /**
+     * @brief setForebackgroundBrush
+     * @param column
+     * @param brush
+     */
+    void setForebackgroundBrush(int column , const QBrush &brush);
+
+    /**
+     * @brief child
+     * @param number
+     * @return 返回number的子节点，如果number位置的节点不存在则返回nullptr。
+     */
+    EWidgetItem* child(int number) const;
 
     /**
      * @brief children

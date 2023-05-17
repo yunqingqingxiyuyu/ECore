@@ -16,14 +16,12 @@ EWidgetItem::~EWidgetItem()
     qDeleteAll(d->m_childItems);
 }
 
-EWidgetItem* EWidgetItem::child(int number) const
+void EWidgetItem::addChild(EWidgetItem *item)
 {
-    Q_D(const EWidgetItem);
-    if(number < 0 || number >= d->m_childItems.size())
-        return nullptr;
-
-    return d->m_childItems.at(number);
+    Q_D(EWidgetItem);
+    appendChild(item);
 }
+
 
 void EWidgetItem::appendChild(EWidgetItem *item)
 {
@@ -32,6 +30,63 @@ void EWidgetItem::appendChild(EWidgetItem *item)
         return ;
     item->setParent(this);
     d->m_childItems.append(item);
+}
+
+void EWidgetItem::appendChildren(const QVector<EWidgetItem *> &children)
+{
+    Q_D(EWidgetItem);
+
+    for(auto && item : children)
+    {
+        if(!item)
+            continue;
+        item->setParent(this);
+    }
+
+    d->m_childItems.append(children);
+}
+
+void EWidgetItem::setBackgroudBrush(int column, const QBrush &brush)
+{
+    Q_D(EWidgetItem);
+
+    if(column < 0 || column >= d->m_background.size())
+        d->m_background[column] = brush;
+}
+
+QBrush EWidgetItem::backgroundBrush(int column) const
+{
+    Q_D(const EWidgetItem);
+    if(column < 0 || column >= d->m_background.size())
+        return QBrush();
+
+    return d->m_background.at(column);
+}
+
+QBrush EWidgetItem::forebackgroundBrush(int column) const
+{
+    Q_D(const EWidgetItem);
+    if(column < 0 || column >= d->m_foreground.size())
+        return QBrush();
+
+    return d->m_foreground.at(column);
+}
+
+void EWidgetItem::setForebackgroundBrush(int column, const QBrush &brush)
+{
+    Q_D(EWidgetItem);
+
+    if(column < 0 || column >= d->m_background.size())
+        d->m_foreground[column] = brush;
+}
+
+EWidgetItem* EWidgetItem::child(int number) const
+{
+    Q_D(const EWidgetItem);
+    if(number < 0 || number >= d->m_childItems.size())
+        return nullptr;
+
+    return d->m_childItems.at(number);
 }
 
 QVector<EWidgetItem *> EWidgetItem::children() const
@@ -86,6 +141,10 @@ QVariant EWidgetItem::data(int column,int role) const
             return QVariant();
         else
             return d->m_itemRoleData[column][role];
+    case Qt::BackgroundRole:
+        return backgroundBrush(column);
+    case Qt::ForegroundRole:
+        return forebackgroundBrush(column);
     }
 
     return QVariant();

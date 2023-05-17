@@ -11,6 +11,7 @@ ETreeModel::ETreeModel(QObject *parent):
 {
     QVector<QVariant> va{tr("Title"), tr("Summary")};
     m_rootItem = new EWidgetItem();
+    m_rootItem->setColumnCount(2);
 }
 
 ETreeModel::~ETreeModel()
@@ -95,6 +96,7 @@ QModelIndex ETreeModel::index(int row, int column, const QModelIndex &parent) co
     if(!parentItem)
         return QModelIndex();
 
+    qDebug() << row << column;
     EWidgetItem *childItem = parentItem->child(row);
     if(childItem)
         return createIndex(row,column,childItem);
@@ -201,12 +203,16 @@ void ETreeModel::setupModelData(const QJsonArray &array)
 
 void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem)
 {
+    int columnCount = 1;
+    if(parentItem)
+        columnCount = parentItem->colmnCount();
+
     for(int row = 0; row < array.size(); ++row)
     {
         QJsonObject temp = array.at(row).toObject();
 
         auto *newItem = new EWidgetItem();
-        newItem->setColumnCount(2);
+        newItem->setColumnCount(columnCount);
         for(auto iter = propertyToAlias.constBegin(); iter != propertyToAlias.constEnd(); ++iter)
         {
             QString propery = iter.key();
@@ -218,7 +224,6 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
             if(propery == "content")
             {
                 newItem->setData(0,temp.value(alias).toVariant());
-                newItem->setData(1,"2column");
             }
             else if(propery == "children")
             {
