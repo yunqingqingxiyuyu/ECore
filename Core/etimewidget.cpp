@@ -39,7 +39,6 @@ void ETimeWidget::setTime(const QTime &time)
 {
     Q_D(ETimeWidget);
 
-    qDebug() << __FUNCTION__ << time ;
     d->m_time = time;
     d->update(d->m_time);
 }
