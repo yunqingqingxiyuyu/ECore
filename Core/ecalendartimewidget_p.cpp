@@ -131,7 +131,6 @@ void ECalendarTimeWidgetPrivate::onSelectionChanged()
 {
     Q_Q(ECalendarTimeWidget);
     QDateTime dateTime(q->QCalendarWidget::selectedDate(),m_timeWidget->time());
-    qDebug() << __FUNCTION__ << dateTime << q->QCalendarWidget::minimumDate() << minimumDateTime().isValid() << (minimumDateTime().date() >= dateTime.date());
     trySetTimeRange(dateTime);
 }
 

@@ -96,7 +96,8 @@ QModelIndex ETreeModel::index(int row, int column, const QModelIndex &parent) co
     if(!parentItem)
         return QModelIndex();
 
-    qDebug() << row << column;
+    qDebug() << __PRETTY_FUNCTION__ << row << column;
+
     EWidgetItem *childItem = parentItem->child(row);
     if(childItem)
         return createIndex(row,column,childItem);
@@ -224,6 +225,7 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
             if(propery == "content")
             {
                 newItem->setData(0,temp.value(alias).toVariant());
+                newItem->setData(1,temp.value(alias).toVariant());
             }
             else if(propery == "children")
             {

@@ -18,7 +18,6 @@ EWidgetItem::~EWidgetItem()
 
 void EWidgetItem::addChild(EWidgetItem *item)
 {
-    Q_D(EWidgetItem);
     appendChild(item);
 }
 
@@ -50,7 +49,7 @@ void EWidgetItem::setBackgroudBrush(int column, const QBrush &brush)
 {
     Q_D(EWidgetItem);
 
-    if(column < 0 || column >= d->m_background.size())
+    if(column >= 0 || column < d->m_background.size())
         d->m_background[column] = brush;
 }
 
@@ -76,7 +75,7 @@ void EWidgetItem::setForebackgroundBrush(int column, const QBrush &brush)
 {
     Q_D(EWidgetItem);
 
-    if(column < 0 || column >= d->m_background.size())
+    if(column >= 0 || column < d->m_background.size())
         d->m_foreground[column] = brush;
 }
 

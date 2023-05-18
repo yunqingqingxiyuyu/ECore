@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     QJsonArray array = QJsonDocument::fromJson(file.readAll()).array();
     model->setupModelData(array);
     file.close();
-    QTreeView *view = new QTreeView;
+    ETreeWidget *view = new ETreeWidget();
     view->setModel(model);
     setCentralWidget(view);
 }
