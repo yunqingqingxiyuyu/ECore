@@ -7,7 +7,6 @@
 
 class EWidgetItemPrivate;
 
-
 class CORE_EXPORT EWidgetItem
 {
 public:
@@ -15,7 +14,6 @@ public:
 
     explicit EWidgetItem(EWidgetItem *parent = nullptr);
     ~EWidgetItem();
-
 
     /**
      * @brief addChild

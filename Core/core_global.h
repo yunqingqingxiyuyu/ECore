@@ -3,6 +3,7 @@
 
 #include <QtCore/qglobal.h>
 #include <QtUiPlugin/QDesignerExportWidget>
+#include <qnamespace.h>
 
 #if defined(PLUGIN_LIBRARY)
 
@@ -21,5 +22,12 @@
 #define Q_DECLARE_D(Class) \
     class Class##Private *d_ptr = nullptr;
 
+namespace Ex {
+
+    enum ItemDataRole{
+        Label = Qt::UserRole + 1, //标签文本
+        IndentLevel ,             //缩进层级
+    };
+}
 
 #endif // CORE_GLOBAL_H

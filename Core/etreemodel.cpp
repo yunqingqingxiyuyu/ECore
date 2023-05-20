@@ -49,6 +49,7 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     switch (role) {
+    case Ex::IndentLevel:
     case Qt::DisplayRole:
     case Qt::EditRole:
     {
@@ -95,8 +96,6 @@ QModelIndex ETreeModel::index(int row, int column, const QModelIndex &parent) co
     EWidgetItem *parentItem = getItem(parent);
     if(!parentItem)
         return QModelIndex();
-
-    qDebug() << __PRETTY_FUNCTION__ << row << column;
 
     EWidgetItem *childItem = parentItem->child(row);
     if(childItem)

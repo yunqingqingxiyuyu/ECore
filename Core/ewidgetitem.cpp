@@ -1,6 +1,7 @@
 #include "ewidgetitem.h"
 
 #include "ewidgetitem_p.h"
+#include <QDebug>
 
 EWidgetItem::EWidgetItem(EWidgetItem *parent) :
     d_ptr(new EWidgetItemPrivate(this))
@@ -28,6 +29,8 @@ void EWidgetItem::appendChild(EWidgetItem *item)
     if(!item)
         return ;
     item->setParent(this);
+    qDebug() << __PRETTY_FUNCTION__ << this->data(0,Ex::IndentLevel).toInt();
+    item->setData(0,this->data(0,Ex::IndentLevel).toInt() + 1,Ex::IndentLevel);
     d->m_childItems.append(item);
 }
 
@@ -128,7 +131,10 @@ QVariant EWidgetItem::data(int column,int role) const
 {
     Q_D(const EWidgetItem);
 
+    qDebug() << __PRETTY_FUNCTION__ << column << role;
     switch (role) {
+    case Ex::IndentLevel:
+        return d->m_indentLevel;
     case Qt::DisplayRole:
     case Qt::EditRole:
         if(column < 0 || column >= d->m_itemData.size())
@@ -233,6 +239,7 @@ bool EWidgetItem::removeColumns(int column, int count)
 bool EWidgetItem::setData(int column, const QVariant &value,int role)
 {
     Q_D(EWidgetItem);
+    qDebug() << __PRETTY_FUNCTION__ << d->m_indentLevel << value.toInt();
 
    bool flag = false;
     do{
@@ -241,6 +248,11 @@ bool EWidgetItem::setData(int column, const QVariant &value,int role)
             if(column < 0 || column >= d->m_itemData.size())
                 break;
             d->m_itemData[column] = value;
+            flag = true;
+        }
+        else if(role == Ex::IndentLevel)
+        {
+            d->m_indentLevel = value.toInt();
             flag = true;
         }
         else
