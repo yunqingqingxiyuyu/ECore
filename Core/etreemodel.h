@@ -94,6 +94,12 @@ public:
     void setupModelData(const QJsonArray &array);
 
     void setupModelData(const QJsonArray &array,EWidgetItem *parentItem);
+
+    void setLabelFormat(const QString &format){m_labelFormat = format;};
+
+    QString label(const QModelIndex &index) const;
+
+    void addProperty(const QString &propertyName){propertyAlias.append(propertyName);}
 private:
     EWidgetItem *m_rootItem = nullptr;
 
@@ -105,12 +111,9 @@ private:
         {"content","name"}
     };
 
-    //状态
-    QHash<QString,QString> statToAlias{
+    QVector<QString> propertyAlias;
 
-    };
-
-
+    QString m_labelFormat;
 };
 
 #endif // ETREEMODEL_H

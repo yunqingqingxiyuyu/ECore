@@ -27,6 +27,7 @@ namespace Ex {
     enum ItemDataRole{
         Label = Qt::UserRole + 1, //标签文本
         IndentLevel ,             //缩进层级
+        Property,				  //item的属性值
     };
 }
 

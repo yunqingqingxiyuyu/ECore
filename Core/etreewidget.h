@@ -33,6 +33,13 @@ public:
      * @return 返回标签的对齐方式
      */
     int labelAlignment() const {return m_labelAligment;}
+
+    /**
+     * @brief setLabelFormat
+     * 设置标签的显示格式
+     * @param format
+     */
+    void setLabelFormat(const QString &format);
 protected:
     void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const override;
 

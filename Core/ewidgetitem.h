@@ -93,7 +93,7 @@ public:
      * @brief colmnCount
      * @return 返回列数量
      */
-    int colmnCount() const;
+    int columnCount() const;
 
     /**
      * @brief setColumnCount
@@ -163,6 +163,22 @@ public:
     bool removeColumns(int column,int count);
 
     bool setData(int column, const QVariant &variant,int role = Qt::DisplayRole);
+
+    /**
+     * @brief setProperty
+     * @param name 属性名
+     * @param value 值
+     */
+    void setProperty(int column ,const QString &name,const QVariant &value);
+
+    /**
+     * @brief property
+     * 获取熟悉内容
+     * @param column
+     * @param name
+     * @return
+     */
+    QVariant property(int column,const QString &name);
 
 
     /**

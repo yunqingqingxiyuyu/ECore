@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ETreeModel *model = new ETreeModel;
     QJsonArray array = QJsonDocument::fromJson(file.readAll()).array();
+    model->addProperty("name");
     model->setupModelData(array);
     file.close();
     ETreeWidget *view = new ETreeWidget();
@@ -28,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     QFont font = view->labelFont();
     font.setPixelSize(font.pointSizeF() + 2);
     font.setBold(true);
+    view->setLabelFormat("---[[name]][test标签]---///");
     view->setLabelFont(font);
     view->setLabelAligment(Qt::AlignRight);
     setCentralWidget(view);

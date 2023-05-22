@@ -5,6 +5,7 @@
 #include <QFontMetrics>
 
 #include <EWidgetItem>
+#include <ETreeModel>
 
 ETreeWidget::ETreeWidget(QTreeView * parent):
     QTreeView(parent),
@@ -45,11 +46,17 @@ void ETreeWidget::drawStateLabel(QPainter *painter, const QStyleOptionViewItem &
 
         int indentWidth = indentation() * currentIndex.data(Ex::IndentLevel).toInt();
         int offsetX = met.horizontalAdvance(content) + indentWidth + 6;
-        stateLabel = "[label][from郑龙]" ;
-        qDebug() << currentIndex.data() << currentIndex.row() << currentIndex.column() << column << currentIndex.data(Ex::IndentLevel) << currentIndex.data();
         painter->setFont(labelFont());
         painter->drawText(rect.adjusted(offsetX,0,0,0),labelAlignment(),stateLabel);
     }
     painter->restore();
 }
 
+void ETreeWidget::setLabelFormat(const QString &format)
+{
+    ETreeModel *model = qobject_cast<ETreeModel *>(this->model());
+    if(!model)
+        return ;
+
+    model->setLabelFormat(format);
+}

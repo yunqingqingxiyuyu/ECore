@@ -6,6 +6,9 @@
 #include <QDebug>
 #include <QJsonObject>
 
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+
 ETreeModel::ETreeModel(QObject *parent):
     QAbstractItemModel(parent)
 {
@@ -22,8 +25,8 @@ ETreeModel::~ETreeModel()
 int ETreeModel::columnCount(const QModelIndex &parent) const
 {
     if(parent.isValid())
-        return static_cast<EWidgetItem *>(parent.internalPointer())->colmnCount();
-    return m_rootItem->colmnCount();
+        return static_cast<EWidgetItem *>(parent.internalPointer())->columnCount();
+    return m_rootItem->columnCount();
 }
 
 int ETreeModel::rowCount(const QModelIndex &parent) const
@@ -48,8 +51,6 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    qDebug() << __PRETTY_FUNCTION__ << index.column() << role;
-
     switch (role) {
     case Ex::IndentLevel:
     case Qt::DisplayRole:
@@ -58,6 +59,10 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
         auto *item = static_cast<EWidgetItem *>(index.internalPointer());
         return item->data(index.column(),role);
         break;
+    }
+    case Ex::Label:
+    {
+        return label(index);
     }
     default:
         return QVariant();
@@ -163,7 +168,7 @@ bool ETreeModel::removeColumns(int column, int count, const QModelIndex &parent)
     const bool success = m_rootItem->removeColumns(column,count);
     endRemoveColumns();
 
-    if(m_rootItem && m_rootItem->colmnCount() == 0)
+    if(m_rootItem && m_rootItem->columnCount() == 0)
         removeRows(0 , rowCount());
 
     return success;
@@ -206,7 +211,7 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
 {
     int columnCount = 1;
     if(parentItem)
-        columnCount = parentItem->colmnCount();
+        columnCount = parentItem->columnCount();
 
     for(int row = 0; row < array.size(); ++row)
     {
@@ -232,6 +237,40 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
                 setupModelData(temp.value(alias).toArray(),newItem);
             }
         }
+
+        for(auto &&alias : propertyAlias)
+        {
+            newItem->setProperty(0,alias,temp.value(alias).toVariant());
+            newItem->setProperty(1,alias,temp.value(alias).toVariant());
+        }
+
         parentItem->appendChild(newItem);
     }
+}
+
+QString ETreeModel::label(const QModelIndex &index) const
+{
+    auto *item = static_cast<EWidgetItem *>(index.internalPointer());
+    if(!item)
+        return m_labelFormat;
+
+    QString format = m_labelFormat;
+
+    QRegularExpression re("\\[([^\\[\\]]*?)\\]");
+    QRegularExpressionMatchIterator matchIter = re.globalMatch(format);
+
+    QHash<QString ,QString> result;
+    while(matchIter.hasNext())
+    {
+        QRegularExpressionMatch match = matchIter.next();
+
+        result.insert(match.captured(1),item->property(index.column(),match.captured(1)).toString());
+    }
+
+    for(auto iter = result.constBegin(); iter != result.constEnd(); ++iter)
+    {
+        format.replace(QString("[%1]").arg(iter.key()),iter.value());
+    }
+
+    return format;
 }

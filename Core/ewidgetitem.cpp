@@ -121,7 +121,7 @@ int EWidgetItem::indexOfParent() const
     return 0;
 }
 
-int EWidgetItem::colmnCount() const
+int EWidgetItem::columnCount() const
 {
     Q_D(const EWidgetItem);
     return d->m_itemData.count();
@@ -134,6 +134,7 @@ void EWidgetItem::setColumnCount(int count)
     {
         d->m_itemData.append(QVariant());
         d->m_itemRoleData.append(QHash<int ,QVariant>());
+        d->m_propertyToValue.append(QHash<QString ,QVariant>());
     }
 
     removeColumns(count - 1,d->m_itemData.size() - count);
@@ -196,7 +197,7 @@ bool EWidgetItem::insertChildren(int row, int count)
     for(int tempRow = 0; tempRow < count; ++tempRow)
     {
         EWidgetItem *item = new EWidgetItem(this);
-        item->setColumnCount(this->colmnCount());
+        item->setColumnCount(this->columnCount());
         d->m_childItems.insert(row,item);
     }
 
@@ -212,6 +213,7 @@ bool EWidgetItem::insertColumns(int column, int count)
     {
         d->m_itemData.insert(column,QVariant());
         d->m_itemRoleData.insert(column,QHash<int ,QVariant>());
+        d->m_propertyToValue.insert(column,QHash<QString ,QVariant>());
     }
 
     for(auto *child : qAsConst(d->m_childItems))
@@ -275,4 +277,24 @@ bool EWidgetItem::setData(int column, const QVariant &value,int role)
     }while(false);
 
     return flag;
+}
+
+void EWidgetItem::setProperty(int column,const QString &name, const QVariant &value)
+{
+    if(column < 0 || column >= columnCount())
+        return ;
+
+    Q_D(EWidgetItem);
+
+    d->m_propertyToValue[column][name] = value;
+}
+
+QVariant EWidgetItem::property(int column, const QString &name)
+{
+    if(column < 0 || column >= columnCount())
+        return name;
+
+    Q_D(const EWidgetItem);
+
+    return d->m_propertyToValue[column].value(name,name);
 }
