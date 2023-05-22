@@ -8,7 +8,7 @@ class CORE_EXPORT ETreeWidget : public QTreeView
 {
     Q_OBJECT
 public:
-    explicit ETreeWidget(QTreeView *parent = nullptr);
+    explicit ETreeWidget(QWidget *parent = nullptr);
 
     /**
      * @brief setLabelFont

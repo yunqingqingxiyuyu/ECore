@@ -7,7 +7,7 @@
 #include <EWidgetItem>
 #include <ETreeModel>
 
-ETreeWidget::ETreeWidget(QTreeView * parent):
+ETreeWidget::ETreeWidget(QWidget * parent):
     QTreeView(parent),
     m_labelFont(font())
 {

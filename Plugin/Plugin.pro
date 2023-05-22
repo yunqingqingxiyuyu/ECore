@@ -58,6 +58,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     elineeditplugin.cpp \
     etimewidgetplugin.cpp \
+    etreewidgetplugin.cpp \
     plugincollection.cpp
 
 
@@ -66,6 +67,7 @@ HEADERS += \
     Plugin_global.h \
     elineeditplugin.h \
     etimewidgetplugin.h \
+    etreewidgetplugin.h \
     plugincollection.h
 
 # Default rules for deployment.
