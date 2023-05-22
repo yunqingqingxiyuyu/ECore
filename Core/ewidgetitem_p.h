@@ -44,8 +44,6 @@ private:
     //
     QVector<QBrush> m_background;
     QVector<QBrush> m_foreground;
-    //缩进层级
-    int m_indentLevel = 0;
 
     EWidgetItem *m_parentItem = nullptr;
 };

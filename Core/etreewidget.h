@@ -10,6 +10,30 @@ class CORE_EXPORT ETreeWidget : public QTreeView
 public:
     explicit ETreeWidget(QTreeView *parent = nullptr);
 
+    /**
+     * @brief setLabelFont
+     * 设置标签的字体大小
+     */
+    void setLabelFont(const QFont &font){m_labelFont = font;}
+
+    /**
+     * @brief labelFont
+     * @return 返回标签的字体大小
+     */
+    QFont labelFont() const {return m_labelFont;}
+
+    /**
+     * @brief setLabelAligment
+     *
+     */
+    void setLabelAligment(int align){m_labelAligment = align;}
+
+    /**
+     * @brief labelAlignment
+     * @return 返回标签的对齐方式
+     */
+    int labelAlignment() const {return m_labelAligment;}
+protected:
     void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const override;
 
     /**
@@ -20,6 +44,12 @@ public:
      * @param index
      */
     void drawStateLabel(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const;
+
+private:
+    QFont m_labelFont;
+
+    int m_labelAligment = Qt::AlignLeft;
+
 };
 
 #endif // ETREEWIDGET_H

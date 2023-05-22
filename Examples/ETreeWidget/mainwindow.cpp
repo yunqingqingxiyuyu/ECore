@@ -20,12 +20,16 @@ MainWindow::MainWindow(QWidget *parent)
     file.open(QIODevice::ReadOnly);
 
     ETreeModel *model = new ETreeModel;
-//    ELoadingWidget *w = new ELoadingWidget(this);
     QJsonArray array = QJsonDocument::fromJson(file.readAll()).array();
     model->setupModelData(array);
     file.close();
     ETreeWidget *view = new ETreeWidget();
     view->setModel(model);
+    QFont font = view->labelFont();
+    font.setPixelSize(font.pointSizeF() + 2);
+    font.setBold(true);
+    view->setLabelFont(font);
+    view->setLabelAligment(Qt::AlignRight);
     setCentralWidget(view);
 }
 

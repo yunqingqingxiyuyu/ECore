@@ -48,6 +48,8 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
     if(!index.isValid())
         return QVariant();
 
+    qDebug() << __PRETTY_FUNCTION__ << index.column() << role;
+
     switch (role) {
     case Ex::IndentLevel:
     case Qt::DisplayRole:
@@ -117,7 +119,6 @@ bool ETreeModel::insertRows(int row, int count, const QModelIndex &parent)
                                                );
 
     endInsertRows();
-
     return success;
 }
 
@@ -224,7 +225,7 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
             if(propery == "content")
             {
                 newItem->setData(0,temp.value(alias).toVariant());
-                newItem->setData(1,temp.value(alias).toVariant());
+                newItem->setData(1,QString("%1%2").arg(temp.value(alias).toVariant().toString(),"///"));
             }
             else if(propery == "children")
             {

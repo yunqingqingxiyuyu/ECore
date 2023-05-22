@@ -163,6 +163,14 @@ public:
     bool removeColumns(int column,int count);
 
     bool setData(int column, const QVariant &variant,int role = Qt::DisplayRole);
+
+
+    /**
+     * @brief setIndentLevel
+     * 设置缩进等级
+     * @param level
+     */
+    void setIndentLevel(int level);
 private:
     Q_DECLARE_D(EWidgetItem);
     Q_DECLARE_PRIVATE(EWidgetItem);
