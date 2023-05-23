@@ -1,6 +1,7 @@
 #include "ewidgetitem.h"
 
 #include "ewidgetitem_p.h"
+#include <ETreeModel>
 #include <QDebug>
 
 EWidgetItem::EWidgetItem(EWidgetItem *parent) :
@@ -41,6 +42,20 @@ void EWidgetItem::setIndentLevel(int level)
 
     for(auto &&item : d->m_childItems)
         item->setIndentLevel(level + 1);
+}
+
+void EWidgetItem::setSelected(bool select)
+{
+//    const ETreeModel *model = tree
+}
+
+ETreeModel* EWidgetItem::model(ETreeWidget *v) const
+{
+    Q_D(const EWidgetItem);
+    if(!v)
+        v = d->m_view;
+
+    return (v ? qobject_cast<ETreeModel *>(v->model()) : nullptr);
 }
 
 void EWidgetItem::appendChildren(const QVector<EWidgetItem *> &children)

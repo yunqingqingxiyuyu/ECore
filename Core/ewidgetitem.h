@@ -6,6 +6,8 @@
 #include <QVector>
 
 class EWidgetItemPrivate;
+class ETreeModel;
+class ETreeWidget;
 
 class CORE_EXPORT EWidgetItem
 {
@@ -187,6 +189,21 @@ public:
      * @param level
      */
     void setIndentLevel(int level);
+
+    /**
+     * @brief setSelected
+     * 设置item为select的选择状态
+     * @param select
+     */
+    void setSelected(bool select);
+
+    /**
+     * @brief model
+     * 如果设置了view则返回其模型
+     * @param v
+     * @return
+     */
+    ETreeModel* model(ETreeWidget *v = nullptr) const;
 private:
     Q_DECLARE_D(EWidgetItem);
     Q_DECLARE_PRIVATE(EWidgetItem);

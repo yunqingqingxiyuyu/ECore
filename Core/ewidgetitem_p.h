@@ -48,6 +48,7 @@ private:
     QVector<QBrush> m_foreground;
 
     EWidgetItem *m_parentItem = nullptr;
+    ETreeWidget *m_view = nullptr;
 };
 
 #endif // EWIDGETITEMPRIVATE_H
