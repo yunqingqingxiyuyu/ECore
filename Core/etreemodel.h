@@ -12,7 +12,7 @@ class CORE_EXPORT ETreeModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit ETreeModel(QObject *parent = nullptr);
+    explicit ETreeModel(int columns,QObject *parent = nullptr);
     virtual ~ETreeModel();
 
     /**

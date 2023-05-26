@@ -9,12 +9,11 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-ETreeModel::ETreeModel(QObject *parent):
+ETreeModel::ETreeModel(int columns,QObject *parent):
     QAbstractItemModel(parent)
 {
     QVector<QVariant> va{tr("Title"), tr("Summary")};
     m_rootItem = new EWidgetItem();
-    m_rootItem->setColumnCount(2);
 }
 
 ETreeModel::~ETreeModel()
