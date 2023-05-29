@@ -22,6 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     ELoadingWidget *load;
+    QWidget *w2;
     QEventLoop m_loop;
 };
 #endif // MAINWINDOW_H

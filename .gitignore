@@ -10,3 +10,4 @@
 ./ECore/*n
 ./ECorePlugin/*
 Lib/
+*.bkp
