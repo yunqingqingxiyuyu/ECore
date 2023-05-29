@@ -48,6 +48,8 @@ do{
 
 为了防止`ELoadingWidget`对象长时间限制用户输入，可以设置一个最大的显示时间，当时间到了之后，自动将引用计数清零并隐藏窗口。
 
+![](images/ELoadingWidget_lifeline.png)
+
 ##  公有函数
 
 ###### ELoadingWidget(const QString &text ,qint32 delayMillisecond ,QWidget *parent = nullptr)
