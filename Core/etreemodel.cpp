@@ -14,6 +14,7 @@ ETreeModel::ETreeModel(int columns,QObject *parent):
 {
     QVector<QVariant> va{tr("Title"), tr("Summary")};
     m_rootItem = new EWidgetItem();
+    m_rootItem->setColumnCount(columns);
 }
 
 ETreeModel::~ETreeModel()

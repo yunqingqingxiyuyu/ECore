@@ -2,6 +2,7 @@
 #define ELOADINGWIDGETPRIVATE_H
 
 #include <QObject>
+#include <QSize>
 
 class ELoadingWidget;
 class QMovie;
@@ -41,6 +42,8 @@ private:
     QMovie *m_movie = nullptr;
     QLabel *m_label = nullptr;
     QLabel *m_textLabel = nullptr;
+    int m_refrenceCount = 0;
+    QWidget *m_topWidget = nullptr;
 };
 
 #endif // ELOADINGWIDGETPRIVATE_H

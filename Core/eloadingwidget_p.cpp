@@ -16,7 +16,8 @@ ELoadingWidgetPrivate::ELoadingWidgetPrivate(
         qint32 delayMillisecond,
         QWidget *topParent
         ):
-    q_ptr(parent)
+    q_ptr(parent),
+    m_topWidget(topParent)
 {
     Q_Q(ELoadingWidget);
     q->raise();
@@ -39,27 +40,11 @@ ELoadingWidgetPrivate::ELoadingWidgetPrivate(
     q->setLayout(mainLay);
 
 
-    QSize parentSize;
-
-    if(topParent != nullptr)
-    {
-        topParent->installEventFilter(q);
-        parentSize = topParent->size();
-    }
-    else
-    {
-        parentSize = QApplication::desktop()->size();
-    }
-
-    q->resize(parentSize);
-
-    q->setWindowFlags(q->windowFlags() | Qt::FramelessWindowHint | Qt::WindowTransparentForInput | Qt::Dialog);
-    q->setWindowOpacity(0.8);
-
     m_movie->setFileName(":/resources/loading.gif");
     m_label->setMovie(m_movie);
 
-    QTimer::singleShot(delayMillisecond, this, &ELoadingWidgetPrivate::startPlay);
+    if(delayMillisecond > 0)
+        QTimer::singleShot(delayMillisecond, this, &ELoadingWidgetPrivate::startPlay);
 }
 
 ELoadingWidgetPrivate::~ELoadingWidgetPrivate()
@@ -75,8 +60,32 @@ void ELoadingWidgetPrivate::setFileName(const QString &fileName)
 void ELoadingWidgetPrivate::startPlay()
 {
     Q_Q(ELoadingWidget);
+    QSize parentSize;
+    QPoint pos(0,0);
+
+    if(m_topWidget != nullptr)
+    {
+        m_topWidget->installEventFilter(q);
+        parentSize = m_topWidget->size();
+        pos = m_topWidget->mapToGlobal(QPoint(0,0));
+    }
+    else
+    {
+        parentSize = QApplication::desktop()->size();
+    }
+
+    q->setGeometry(QRect(pos,parentSize));
+
+    q->setWindowFlags(q->windowFlags() |
+                      Qt::FramelessWindowHint |
+                      Qt::Dialog |
+                      Qt::WindowStaysOnTopHint);
+
+    q->setWindowOpacity(0.8);
+
     m_movie->start();
-    q->show();
+    q->QWidget::show();
+    q->raise();
 }
 
 void ELoadingWidgetPrivate::setText(const QString &text)

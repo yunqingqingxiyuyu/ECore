@@ -31,6 +31,58 @@ ELoadingWidget::~ELoadingWidget()
     d_ptr = nullptr;
 }
 
+void ELoadingWidget::show(int showTime)
+{
+    Q_D(ELoadingWidget);
+    ++(d->m_refrenceCount);
+
+    if(!isVisible())
+    {
+        d->startPlay();
+    }
+
+    if(showTime > 0)
+    {
+        QTimer::singleShot(showTime,this,[&](){
+            hide();
+        });
+    }
+}
+
+void ELoadingWidget::setParent(QWidget *parent)
+{
+    Q_D(ELoadingWidget);
+    QWidget::setParent(parent);
+    d->m_topWidget = parent;
+}
+
+void ELoadingWidget::hide()
+{
+    Q_D(ELoadingWidget);
+    --(d->m_refrenceCount);
+    d->m_refrenceCount = d->m_refrenceCount < 0 ? 0 : d->m_refrenceCount;
+
+    if(d->m_refrenceCount <= 0)
+    {
+        QWidget::hide();
+    }
+}
+
+int ELoadingWidget::refrenceCount() const
+{
+    Q_D(const ELoadingWidget);
+    return d->m_refrenceCount;
+}
+
+void ELoadingWidget::setMaxShowTime(int ms)
+{
+    QTimer::singleShot(ms,this,[&](){
+        Q_D(ELoadingWidget);
+        d->m_refrenceCount = 0;
+        hide();
+    });
+}
+
 void ELoadingWidget::setFileName(const QString &fileName)
 {
     Q_D(ELoadingWidget);
@@ -45,9 +97,18 @@ void ELoadingWidget::setText(const QString &text)
 
 bool ELoadingWidget::eventFilter(QObject *watched, QEvent *event)
 {
-    if(parent() == watched)
+    Q_D(ELoadingWidget);
+
+    if(event->type() == QEvent::Move)
     {
-        if(event->type() == QEvent::Resize)
+        QPoint pos = d->m_topWidget->mapToGlobal(QPoint(0,0));
+        this->move(pos);
+    }
+
+    if(d->m_topWidget == watched)
+    {
+        switch (static_cast<int>(event->type())) {
+        case QEvent::Resize:
         {
             QWidget *parent = static_cast<QWidget *>(watched);
             if(parent != nullptr)
@@ -55,9 +116,36 @@ bool ELoadingWidget::eventFilter(QObject *watched, QEvent *event)
                 resize(parent->size());
                 update();
             }
+            break;
+        }
         }
         return false;
     }
 
+
     return QWidget::eventFilter(watched,event);
+}
+
+void ELoadingWidget::setScaledSize(const QSize &size)
+{
+    Q_D(ELoadingWidget);
+    d->m_movie->setScaledSize(size);
+}
+
+QSize ELoadingWidget::scaledSize() const
+{
+    Q_D(const ELoadingWidget);
+    return d->m_movie->scaledSize();
+}
+
+QFont ELoadingWidget::font() const
+{
+    Q_D(const ELoadingWidget);
+    return d->m_textLabel->font();
+}
+
+void ELoadingWidget::setFont(const QFont &font)
+{
+    Q_D(ELoadingWidget);
+    d->m_textLabel->setFont(font);
 }

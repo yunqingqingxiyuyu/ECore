@@ -6,7 +6,8 @@
 #include <QMutexLocker>
 #include <QDebug>
 
-#define ES(T) ESingleton<T>::getInstance()
+#define ES(T) (ESingleton<T>::getInstance())
+
 
 /**
  * @brief The ESingleton class
@@ -24,7 +25,7 @@ private:
     class Internal{
     public:
         ~Internal(){
-            delete  ESingleton<T>::s_instance;
+            ESingleton<T>::s_instance->deleteLater();
             ESingleton<T>::s_instance = nullptr;
         }
     };
