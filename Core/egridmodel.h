@@ -1,19 +1,19 @@
-#ifndef ETREEMODEL_H
-#define ETREEMODEL_H
+#ifndef EGRIDMODEL_H
+#define EGRIDMODEL_H
 
 #include "core_global.h"
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
 
-class EWidgetItem;
+class EGridItem;
 
-class CORE_EXPORT ETreeModel : public QAbstractItemModel
+class CORE_EXPORT EGridModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit ETreeModel(int columns = 1,QObject *parent = nullptr);
-    virtual ~ETreeModel();
+    explicit EGridModel(int columns = 1,QObject *parent = nullptr);
+    virtual ~EGridModel();
 
     /**
      * @brief columnCount
@@ -49,7 +49,7 @@ public:
      * @param index
      * @return 返回index对应的item
      */
-    EWidgetItem* getItem(const QModelIndex &index) const;
+    EGridItem* getItem(const QModelIndex &index) const;
 
     /**
      * @brief headerData
@@ -93,7 +93,7 @@ public:
 
     void setupModelData(const QJsonArray &array);
 
-    void setupModelData(const QJsonArray &array,EWidgetItem *parentItem);
+    void setupModelData(const QJsonArray &array,EGridItem *parentItem);
 
     void setLabelFormat(const QString &format){m_labelFormat = format;};
 
@@ -101,7 +101,7 @@ public:
 
     void addProperty(const QString &propertyName){propertyAlias.append(propertyName);}
 private:
-    EWidgetItem *m_rootItem = nullptr;
+    EGridItem *m_rootItem = nullptr;
 
     //属性别名映射表，这么做的目的是在解析json时可以以别名取json中key(对应alias):value
     QHash<QString ,QString> propertyToAlias{

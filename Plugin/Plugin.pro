@@ -56,18 +56,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    egridwidgetplugin.cpp \
     elineeditplugin.cpp \
     etimewidgetplugin.cpp \
-    etreewidgetplugin.cpp \
     plugincollection.cpp
 
 
 
 HEADERS += \
     Plugin_global.h \
+    egridwidgetplugin.h \
     elineeditplugin.h \
     etimewidgetplugin.h \
-    etreewidgetplugin.h \
     plugincollection.h
 
 # Default rules for deployment.

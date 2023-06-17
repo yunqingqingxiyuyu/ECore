@@ -1,16 +1,16 @@
-#ifndef ETREEWIDGETPLUGIN_H
-#define ETREEWIDGETPLUGIN_H
+#ifndef EGRIDWIDGETPLUGIN_H
+#define EGRIDWIDGETPLUGIN_H
 
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class ETreeWidgetPlugin : public QObject,
+class EGridWidgetPlugin : public QObject,
         public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    ETreeWidgetPlugin(QObject *parent = nullptr);
+    EGridWidgetPlugin(QObject *parent = nullptr);
 
     bool isContainer() const override;
     bool isInitialized() const override;

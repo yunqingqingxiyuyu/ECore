@@ -1,6 +1,6 @@
-#include "etreemodel.h"
+#include "egridmodel.h"
 
-#include "ewidgetitem.h"
+#include "egriditem.h"
 
 #include <QJsonArray>
 #include <QDebug>
@@ -9,36 +9,36 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-ETreeModel::ETreeModel(int columns,QObject *parent):
+EGridModel::EGridModel(int columns,QObject *parent):
     QAbstractItemModel(parent)
 {
     QVector<QVariant> va{tr("Title"), tr("Summary")};
-    m_rootItem = new EWidgetItem();
+    m_rootItem = new EGridItem();
     m_rootItem->setColumnCount(columns);
 }
 
-ETreeModel::~ETreeModel()
+EGridModel::~EGridModel()
 {
     delete m_rootItem;
 }
 
-int ETreeModel::columnCount(const QModelIndex &parent) const
+int EGridModel::columnCount(const QModelIndex &parent) const
 {
     if(parent.isValid())
-        return static_cast<EWidgetItem *>(parent.internalPointer())->columnCount();
+        return static_cast<EGridItem *>(parent.internalPointer())->columnCount();
     return m_rootItem->columnCount();
 }
 
-int ETreeModel::rowCount(const QModelIndex &parent) const
+int EGridModel::rowCount(const QModelIndex &parent) const
 {
-    EWidgetItem *parentItem;
+    EGridItem *parentItem;
     if (parent.column() > 0)
         return 0;
 
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
-        parentItem = static_cast<EWidgetItem*>(parent.internalPointer());
+        parentItem = static_cast<EGridItem*>(parent.internalPointer());
 
     if(parentItem)
         return parentItem->childCount();
@@ -46,7 +46,7 @@ int ETreeModel::rowCount(const QModelIndex &parent) const
         return m_rootItem->childCount();
 }
 
-QVariant ETreeModel::data(const QModelIndex &index, int role) const
+QVariant EGridModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid())
         return QVariant();
@@ -56,7 +56,7 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case Qt::EditRole:
     {
-        auto *item = static_cast<EWidgetItem *>(index.internalPointer());
+        auto *item = static_cast<EGridItem *>(index.internalPointer());
         return item->data(index.column(),role);
         break;
     }
@@ -69,7 +69,7 @@ QVariant ETreeModel::data(const QModelIndex &index, int role) const
     }
 }
 
-Qt::ItemFlags ETreeModel::flags(const QModelIndex &index) const
+Qt::ItemFlags EGridModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -77,11 +77,11 @@ Qt::ItemFlags ETreeModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index);
 }
 
-EWidgetItem* ETreeModel::getItem(const QModelIndex &index) const
+EGridItem* EGridModel::getItem(const QModelIndex &index) const
 {
     if(index.isValid())
     {
-        EWidgetItem *item = static_cast<EWidgetItem*>(index.internalPointer());
+        EGridItem *item = static_cast<EGridItem*>(index.internalPointer());
         if (item)
             return item;
         return nullptr;
@@ -89,7 +89,7 @@ EWidgetItem* ETreeModel::getItem(const QModelIndex &index) const
     return m_rootItem;
 }
 
-QVariant ETreeModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant EGridModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && m_rootItem)
         return m_rootItem->data(section,role);
@@ -98,22 +98,22 @@ QVariant ETreeModel::headerData(int section, Qt::Orientation orientation, int ro
 }
 
 
-QModelIndex ETreeModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex EGridModel::index(int row, int column, const QModelIndex &parent) const
 {
-    EWidgetItem *parentItem = getItem(parent);
+    EGridItem *parentItem = getItem(parent);
     if(!parentItem)
         return QModelIndex();
 
-    EWidgetItem *childItem = parentItem->child(row);
+    EGridItem *childItem = parentItem->child(row);
     if(childItem)
         return createIndex(row,column,childItem);
 
     return QModelIndex();
 }
 
-bool ETreeModel::insertRows(int row, int count, const QModelIndex &parent)
+bool EGridModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    EWidgetItem *parentItem = getItem(parent);
+    EGridItem *parentItem = getItem(parent);
     if(!parentItem)
         return false;
 
@@ -127,7 +127,7 @@ bool ETreeModel::insertRows(int row, int count, const QModelIndex &parent)
     return success;
 }
 
-bool ETreeModel::insertColumns(int column, int count, const QModelIndex &parent)
+bool EGridModel::insertColumns(int column, int count, const QModelIndex &parent)
 {
     beginInsertColumns(parent,column,column + count -1);
     const bool success = m_rootItem->insertColumns(column,count);
@@ -136,20 +136,20 @@ bool ETreeModel::insertColumns(int column, int count, const QModelIndex &parent)
     return success;
 }
 
-QModelIndex ETreeModel::parent(const QModelIndex &child) const
+QModelIndex EGridModel::parent(const QModelIndex &child) const
 {
     if(!child.isValid())
         return QModelIndex();
 
-    EWidgetItem *childItem = getItem(child);
-    EWidgetItem *parentItem = childItem ? childItem->parent() : nullptr;
+    EGridItem *childItem = getItem(child);
+    EGridItem *parentItem = childItem ? childItem->parent() : nullptr;
     if(parentItem == m_rootItem || !parentItem)
         return QModelIndex();
 
     return createIndex(parentItem->indexOfParent(),0,parentItem);
 }
 
-bool ETreeModel::removeRows(int row, int count, const QModelIndex &parent)
+bool EGridModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     auto *parentItem = getItem(parent);
     if(!parentItem)
@@ -162,7 +162,7 @@ bool ETreeModel::removeRows(int row, int count, const QModelIndex &parent)
     return success;
 }
 
-bool ETreeModel::removeColumns(int column, int count, const QModelIndex &parent)
+bool EGridModel::removeColumns(int column, int count, const QModelIndex &parent)
 {
     beginRemoveColumns(parent,column,column + count -1);
     const bool success = m_rootItem->removeColumns(column,count);
@@ -174,12 +174,12 @@ bool ETreeModel::removeColumns(int column, int count, const QModelIndex &parent)
     return success;
 }
 
-bool ETreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool EGridModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if(role != Qt::EditRole)
         return false;
 
-    EWidgetItem *item = getItem(index);
+    EGridItem *item = getItem(index);
     bool result = item->setData(index.column(),value);
 
     if(result)
@@ -188,7 +188,7 @@ bool ETreeModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return result;
 }
 
-bool ETreeModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
+bool EGridModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
 {
     if(role != Qt::EditRole || orientation != Qt::Horizontal)
         return false;
@@ -201,13 +201,13 @@ bool ETreeModel::setHeaderData(int section, Qt::Orientation orientation, const Q
     return result;
 }
 
-void ETreeModel::setupModelData(const QJsonArray &array)
+void EGridModel::setupModelData(const QJsonArray &array)
 {
     setupModelData(array,m_rootItem);
 }
 
 
-void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem)
+void EGridModel::setupModelData(const QJsonArray &array, EGridItem *parentItem)
 {
     int columnCount = 1;
     if(parentItem)
@@ -217,7 +217,7 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
     {
         QJsonObject temp = array.at(row).toObject();
 
-        auto *newItem = new EWidgetItem();
+        auto *newItem = new EGridItem();
         newItem->setColumnCount(columnCount);
         for(auto iter = propertyToAlias.constBegin(); iter != propertyToAlias.constEnd(); ++iter)
         {
@@ -248,9 +248,9 @@ void ETreeModel::setupModelData(const QJsonArray &array, EWidgetItem *parentItem
     }
 }
 
-QString ETreeModel::label(const QModelIndex &index) const
+QString EGridModel::label(const QModelIndex &index) const
 {
-    auto *item = static_cast<EWidgetItem *>(index.internalPointer());
+    auto *item = static_cast<EGridItem *>(index.internalPointer());
     if(!item)
         return m_labelFormat;
 

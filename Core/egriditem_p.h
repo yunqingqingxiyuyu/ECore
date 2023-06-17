@@ -1,20 +1,20 @@
-#ifndef EWIDGETITEMPRIVATE_H
-#define EWIDGETITEMPRIVATE_H
+#ifndef EGRIDITEMPRIVATE_H
+#define EGRIDITEMPRIVATE_H
 
 #include <QAbstractItemModel>
 #include <QObject>
 
-#include "etreewidget.h"
-#include <ewidgetitem.h>
+#include "egridwidget.h"
+#include <egriditem.h>
 #include "core_global.h"
 
-class EWidgetItemPrivate
+class EGridItemPrivate
 {
-    EWidgetItem *const q_ptr;
-    Q_DECLARE_PUBLIC(EWidgetItem);
+    EGridItem *const q_ptr;
+    Q_DECLARE_PUBLIC(EGridItem);
 public:
 
-    EWidgetItemPrivate(EWidgetItem *item):
+    EGridItemPrivate(EGridItem *item):
         q_ptr(item),
         disabled(false),
         selected(false),
@@ -24,7 +24,7 @@ public:
 
     }
 
-    friend class EWidgetItem;
+    friend class EGridItem;
 
 private:
 
@@ -34,7 +34,7 @@ private:
     uint hidden : 1;
     int rowGuess;
 
-    QVector<EWidgetItem*> m_childItems;
+    QVector<EGridItem*> m_childItems;
     //存显示数据
     QVector<QVariant> m_itemData;
     //存属性
@@ -47,8 +47,8 @@ private:
     QVector<QBrush> m_background;
     QVector<QBrush> m_foreground;
 
-    EWidgetItem *m_parentItem = nullptr;
-    ETreeWidget *m_view = nullptr;
+    EGridItem *m_parentItem = nullptr;
+    EGridWidget *m_view = nullptr;
 };
 
 #endif // EWIDGETITEMPRIVATE_H

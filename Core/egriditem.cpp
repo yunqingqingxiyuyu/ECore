@@ -1,51 +1,65 @@
-#include "ewidgetitem.h"
+#include "egriditem.h"
 
-#include "ewidgetitem_p.h"
-#include <ETreeModel>
+#include "egriditem_p.h"
+#include <EGridModel>
 #include <QDebug>
 
-EWidgetItem::EWidgetItem(EWidgetItem *parent) :
-    d_ptr(new EWidgetItemPrivate(this)),
+EGridItem::EGridItem(EGridItem *parent) :
+    d_ptr(new EGridItemPrivate(this)),
     itemFlags(Qt::ItemIsSelectable
               |Qt::ItemIsUserCheckable
               |Qt::ItemIsEnabled
               |Qt::ItemIsDragEnabled
               |Qt::ItemIsDropEnabled)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     d->m_parentItem = parent;
     insertColumns(0,1);
 }
 
-EWidgetItem::EWidgetItem(int type, EWidgetItem *parent):
+EGridItem::EGridItem(int type, EGridItem *parent):
     rtti(type),
-    EWidgetItem(parent)
+    d_ptr(new EGridItemPrivate(this)),
+    itemFlags(Qt::ItemIsSelectable
+              |Qt::ItemIsUserCheckable
+              |Qt::ItemIsEnabled
+              |Qt::ItemIsDragEnabled
+              |Qt::ItemIsDropEnabled)
 {
-
+    Q_D(EGridItem);
+    d->m_parentItem = parent;
 }
 
-EWidgetItem::EWidgetItem(const QStringList &strings, int type, EWidgetItem *parent):
-    EWidgetItem(type,parent)
+EGridItem::EGridItem(const QStringList &strings, int type, EGridItem *parent):
+    rtti(type),
+    d_ptr(new EGridItemPrivate(this)),
+    itemFlags(Qt::ItemIsSelectable
+              |Qt::ItemIsUserCheckable
+              |Qt::ItemIsEnabled
+              |Qt::ItemIsDragEnabled
+              |Qt::ItemIsDropEnabled)
 {
-    for(auto && item : strings)
-
+    Q_D(EGridItem);
+    d->m_parentItem = parent;
+    for(int i = 0; i < strings.size(); ++i)
+        setText(i,strings.at(i));
 }
 
-EWidgetItem::~EWidgetItem()
+EGridItem::~EGridItem()
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     qDeleteAll(d->m_childItems);
 }
 
-void EWidgetItem::addChild(EWidgetItem *item)
+void EGridItem::addChild(EGridItem *item)
 {
     appendChild(item);
 }
 
 
-void EWidgetItem::appendChild(EWidgetItem *item)
+void EGridItem::appendChild(EGridItem *item)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     if(!item)
         return ;
     item->setParent(this);
@@ -53,9 +67,9 @@ void EWidgetItem::appendChild(EWidgetItem *item)
     d->m_childItems.append(item);
 }
 
-void EWidgetItem::setIndentLevel(int level)
+void EGridItem::setIndentLevel(int level)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     this->setData(0,level,Ex::IndentLevel);
 
@@ -63,23 +77,24 @@ void EWidgetItem::setIndentLevel(int level)
         item->setIndentLevel(level + 1);
 }
 
-void EWidgetItem::setSelected(bool select)
+void EGridItem::setSelected(bool select)
 {
-//    const ETreeModel *model = tree
+    Q_UNUSED(select)
+//    const EGridModel *model = tree
 }
 
-ETreeModel* EWidgetItem::model(ETreeWidget *v) const
+EGridModel* EGridItem::model(EGridWidget *v) const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     if(!v)
         v = d->m_view;
 
-    return (v ? qobject_cast<ETreeModel *>(v->model()) : nullptr);
+    return (v ? qobject_cast<EGridModel *>(v->model()) : nullptr);
 }
 
-void EWidgetItem::appendChildren(const QVector<EWidgetItem *> &children)
+void EGridItem::appendChildren(const QVector<EGridItem *> &children)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     for(auto && item : children)
     {
@@ -91,79 +106,79 @@ void EWidgetItem::appendChildren(const QVector<EWidgetItem *> &children)
     d->m_childItems.append(children);
 }
 
-void EWidgetItem::setBackgroudBrush(int column, const QBrush &brush)
+void EGridItem::setBackgroudBrush(int column, const QBrush &brush)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     if(column >= 0 || column < d->m_background.size())
         d->m_background[column] = brush;
 }
 
-QBrush EWidgetItem::backgroundBrush(int column) const
+QBrush EGridItem::backgroundBrush(int column) const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     if(column < 0 || column >= d->m_background.size())
         return QBrush();
 
     return d->m_background.at(column);
 }
 
-QBrush EWidgetItem::forebackgroundBrush(int column) const
+QBrush EGridItem::forebackgroundBrush(int column) const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     if(column < 0 || column >= d->m_foreground.size())
         return QBrush();
 
     return d->m_foreground.at(column);
 }
 
-void EWidgetItem::setForebackgroundBrush(int column, const QBrush &brush)
+void EGridItem::setForebackgroundBrush(int column, const QBrush &brush)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     if(column >= 0 || column < d->m_background.size())
         d->m_foreground[column] = brush;
 }
 
-EWidgetItem* EWidgetItem::child(int number) const
+EGridItem* EGridItem::child(int number) const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     if(number < 0 || number >= d->m_childItems.size())
         return nullptr;
 
     return d->m_childItems.at(number);
 }
 
-QVector<EWidgetItem *> EWidgetItem::children() const
+QVector<EGridItem *> EGridItem::children() const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
 
     return d->m_childItems;
 }
 
-int EWidgetItem::childCount() const
+int EGridItem::childCount() const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     return d->m_childItems.size();
 }
 
-int EWidgetItem::indexOfParent() const
+int EGridItem::indexOfParent() const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     if(d->m_parentItem)
-        return d->m_parentItem->children().indexOf(const_cast<EWidgetItem *>(this));
+        return d->m_parentItem->children().indexOf(const_cast<EGridItem *>(this));
     return 0;
 }
 
-int EWidgetItem::columnCount() const
+int EGridItem::columnCount() const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     return d->m_itemData.count();
 }
 
-void EWidgetItem::setColumnCount(int count)
+void EGridItem::setColumnCount(int count)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     for(int column = d->m_itemData.size(); column < count; ++column)
     {
         d->m_itemData.append(QVariant());
@@ -174,9 +189,9 @@ void EWidgetItem::setColumnCount(int count)
     removeColumns(count - 1,d->m_itemData.size() - count);
 }
 
-QVariant EWidgetItem::data(int column,int role) const
+QVariant EGridItem::data(int column,int role) const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
 
     switch (role) {
     case Qt::DisplayRole:
@@ -201,36 +216,36 @@ QVariant EWidgetItem::data(int column,int role) const
 }
 
 
-EWidgetItem* EWidgetItem::parent() const
+EGridItem* EGridItem::parent() const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     return d->m_parentItem;
 }
 
-void EWidgetItem::setParent(EWidgetItem *parent)
+void EGridItem::setParent(EGridItem *parent)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     d->m_parentItem = parent;
 }
 
-int EWidgetItem::row() const
+int EGridItem::row() const
 {
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
     if(d->m_parentItem)
-        return d->m_parentItem->children().indexOf(const_cast<EWidgetItem *>(this));
+        return d->m_parentItem->children().indexOf(const_cast<EGridItem *>(this));
 
     return 0;
 }
 
-bool EWidgetItem::insertChildren(int row, int count)
+bool EGridItem::insertChildren(int row, int count)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     if(row < 0 || row > d->m_childItems.size())
         return false;
 
     for(int tempRow = 0; tempRow < count; ++tempRow)
     {
-        EWidgetItem *item = new EWidgetItem(this);
+        EGridItem *item = new EGridItem(this);
         item->setColumnCount(this->columnCount());
         d->m_childItems.insert(row,item);
     }
@@ -239,9 +254,9 @@ bool EWidgetItem::insertChildren(int row, int count)
 }
 
 
-bool EWidgetItem::insertColumns(int column, int count)
+bool EGridItem::insertColumns(int column, int count)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     for(int tempColumn = 0; tempColumn < count; ++tempColumn)
     {
@@ -257,9 +272,9 @@ bool EWidgetItem::insertColumns(int column, int count)
 }
 
 
-bool EWidgetItem::removeChildren(int column, int count)
+bool EGridItem::removeChildren(int column, int count)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     if(column < 0 || column + count > d->m_itemData.size())
         return false;
 
@@ -269,9 +284,9 @@ bool EWidgetItem::removeChildren(int column, int count)
     return true;
 }
 
-bool EWidgetItem::removeColumns(int column, int count)
+bool EGridItem::removeColumns(int column, int count)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
     if(column < 0 || column + count > d->m_itemData.size())
         return false;
 
@@ -288,14 +303,17 @@ bool EWidgetItem::removeColumns(int column, int count)
 
 }
 
-bool EWidgetItem::setData(int column, const QVariant &value,int role)
+bool EGridItem::setData(int column, const QVariant &value,int role)
 {
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     if(column < 0)
         return false;
 
-    ETreeModel *model = this->model();
+    EGridModel *model = this->model();
+
+    if(!model)
+        return false;
 
     bool flag = false;
     do{
@@ -336,22 +354,22 @@ bool EWidgetItem::setData(int column, const QVariant &value,int role)
     return flag;
 }
 
-void EWidgetItem::setProperty(int column,const QString &name, const QVariant &value)
+void EGridItem::setProperty(int column,const QString &name, const QVariant &value)
 {
     if(column < 0 || column >= columnCount())
         return ;
 
-    Q_D(EWidgetItem);
+    Q_D(EGridItem);
 
     d->m_propertyToValue[column][name] = value;
 }
 
-QVariant EWidgetItem::property(int column, const QString &name)
+QVariant EGridItem::property(int column, const QString &name)
 {
     if(column < 0 || column >= columnCount())
         return name;
 
-    Q_D(const EWidgetItem);
+    Q_D(const EGridItem);
 
     return d->m_propertyToValue[column].value(name,name);
 }

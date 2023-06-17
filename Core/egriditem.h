@@ -1,43 +1,45 @@
-#ifndef EWIDGETITEM_H
-#define EWIDGETITEM_H
+#ifndef EGRIDITEM_H
+#define EGRIDITEM_H
 
 #include "core_global.h"
 #include <QVariant>
 #include <QVector>
 
-class EWidgetItemPrivate;
-class ETreeModel;
-class ETreeWidget;
+class EGridItemPrivate;
+class EGridModel;
+class EGridWidget;
 
-class CORE_EXPORT EWidgetItem
+class CORE_EXPORT EGridItem
 {
 public:
     enum ItemType{Type = 0, UserType = 1000};
 
-    explicit EWidgetItem(EWidgetItem *parent = nullptr);
-    explicit EWidgetItem(int type,EWidgetItem *parent = nullptr);
-    explicit EWidgetItem(const QStringList &strings,int type,EWidgetItem *parent = nullptr);
-    ~EWidgetItem();
+    explicit EGridItem(EGridItem *parent = nullptr);
+    explicit EGridItem(int type,EGridItem *parent = nullptr);
+    explicit EGridItem(const QStringList &strings,int type,EGridItem *parent = nullptr);
+    ~EGridItem();
+
+    EGridWidget* treeWidget() const {return this->view;}
 
     /**
      * @brief addChild
      * @param item
      */
-    void addChild(EWidgetItem *item);
+    void addChild(EGridItem *item);
 
     /**
      * @brief appendChildd
      * 添加子节点
      * @param item
      */
-    void appendChild(EWidgetItem *item);
+    void appendChild(EGridItem *item);
 
     /**
      * @brief appendChildren
      * 添加子节点
      * @param children
      */
-    void appendChildren(const QVector<EWidgetItem *> &childre);
+    void appendChildren(const QVector<EGridItem *> &childre);
 
     /**
      * @brief background
@@ -73,13 +75,13 @@ public:
      * @param number
      * @return 返回number的子节点，如果number位置的节点不存在则返回nullptr。
      */
-    EWidgetItem* child(int number) const;
+    EGridItem* child(int number) const;
 
     /**
      * @brief children
      * @return 孩子对象
      */
-    QVector<EWidgetItem *> children() const;
+    QVector<EGridItem *> children() const;
 
     /**
      * @brief childCount
@@ -120,14 +122,14 @@ public:
      * @brief parent
      * @return 返回父节点
      */
-    EWidgetItem* parent() const;
+    EGridItem* parent() const;
 
     /**
      * @brief setParent
      * 设置父节点
      * @param parent
      */
-    void setParent(EWidgetItem *parent);
+    void setParent(EGridItem *parent);
 
     /**
      * @brief row
@@ -205,25 +207,25 @@ public:
      * @param v
      * @return
      */
-    ETreeModel* model(ETreeWidget *v = nullptr) const;
+    EGridModel* model(EGridWidget *v = nullptr) const;
 
     void setText(int column,const QString &text);
 
 private:
 
 private:
-    Q_DECLARE_D(EWidgetItem);
-    Q_DECLARE_PRIVATE(EWidgetItem);
+    Q_DECLARE_D(EGridItem);
+    Q_DECLARE_PRIVATE(EGridItem);
 
     int rtti = 0;
     Qt::ItemFlags itemFlags;
-    ETreeWidget *view = nullptr;
+    EGridWidget *view = nullptr;
 };
 
 inline
-void EWidgetItem::setText(int column, const QString &text)
+void EGridItem::setText(int column, const QString &text)
 {
-    setData(column,Qt::DisplayRole,text);
+    setData(column,text,Qt::DisplayRole);
 }
 
 #endif // EWIDGETITEM_H

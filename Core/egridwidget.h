@@ -1,14 +1,14 @@
-#ifndef ETREEWIDGET_H
-#define ETREEWIDGET_H
+#ifndef EGRIDWIDGET_H
+#define EGRIDWIDGET_H
 
 #include "core_global.h"
 #include <QTreeView>
 
-class CORE_EXPORT ETreeWidget : public QTreeView
+class CORE_EXPORT EGridWidget : public QTreeView
 {
     Q_OBJECT
 public:
-    explicit ETreeWidget(QWidget *parent = nullptr);
+    explicit EGridWidget(QWidget *parent = nullptr);
 
     /**
      * @brief setLabelFont

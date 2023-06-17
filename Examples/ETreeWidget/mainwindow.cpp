@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <ETreeWidget>
-#include <ETreeModel>
+#include <EGridWidget>
+#include <EGridModel>
 #include <ELoadingWidget>
 
 #include <QJsonArray>
@@ -19,12 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
     QFile file(":/tree_json.json");
     file.open(QIODevice::ReadOnly);
 
-    ETreeModel *model = new ETreeModel;
+    EGridModel *model = new EGridModel;
     QJsonArray array = QJsonDocument::fromJson(file.readAll()).array();
     model->addProperty("name");
     model->setupModelData(array);
     file.close();
-    ETreeWidget *view = new ETreeWidget();
+    EGridWidget *view = new EGridWidget();
     view->setModel(model);
     QFont font = view->labelFont();
     font.setPixelSize(font.pointSizeF() + 2);

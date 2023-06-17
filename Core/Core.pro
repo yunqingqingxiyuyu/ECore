@@ -49,6 +49,12 @@ SOURCES += \
     ecalendartimewidget_p.cpp \
     edatetimeedit.cpp \
     edatetimeedit_p.cpp \
+    egriditem.cpp \
+    egriditem_p.cpp \
+    egridmodel.cpp \
+    egridmodel_p.cpp \
+    egridwidget.cpp \
+    egridwidget_p.cpp \
     elineedit.cpp \
     elineedit_p.cpp \
     eloadingwidget.cpp \
@@ -57,13 +63,7 @@ SOURCES += \
     esecretcombobox_p.cpp \
     esingleton.cpp \
     etimewidget.cpp \
-    etimewidget_p.cpp \
-    etreemodel.cpp \
-    etreemodel_p.cpp \
-    etreewidget.cpp \
-    etreewidget_p.cpp \
-    ewidgetitem.cpp \
-    ewidgetitem_p.cpp
+    etimewidget_p.cpp
 
 HEADERS += \
     core_global.h \
@@ -71,6 +71,12 @@ HEADERS += \
     ecalendartimewidget_p.h \
     edatetimeedit.h \
     edatetimeedit_p.h \
+    egriditem.h \
+    egriditem_p.h \
+    egridmodel.h \
+    egridmodel_p.h \
+    egridwidget.h \
+    egridwidget_p.h \
     elineedit.h \
     elineedit_p.h \
     eloadingwidget.h \
@@ -79,14 +85,7 @@ HEADERS += \
     esecretcombobox_p.h \
     esingleton.h \
     etimewidget.h \
-    etimewidget_p.h \
-    etreemodel.h \
-    etreemodel_p.h \
-    etreewidget.h \
-    etreewidget_p.h \
-    etreewidgetitem.h \
-    ewidgetitem.h \
-    ewidgetitem_p.h
+    etimewidget_p.h
 
 # Default rules for deployment.
 unix {

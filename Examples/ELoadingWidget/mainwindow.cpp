@@ -39,20 +39,17 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     connect(button2,&QPushButton::clicked,this,[=](){
-        qDebug() << __PRETTY_FUNCTION__;
         ES(ELoadingWidget)->setParent(this);
         ES(ELoadingWidget)->raise();
         ES(ELoadingWidget)->show(10 * 1000);
     });
 
     connect(button3,&QPushButton::clicked,this,[&](){
-        qDebug() << __PRETTY_FUNCTION__;
         QDialog *d = new QDialog;
 
         d->resize(700,600);
         d->show();
         ES(ELoadingWidget)->setParent(d);
-        qDebug() << __PRETTY_FUNCTION__ << w2 << this;
         ES(ELoadingWidget)->show();
         ES(ELoadingWidget)->setText("hello");
         ES(ELoadingWidget)->setScaledSize(QSize(100,100));

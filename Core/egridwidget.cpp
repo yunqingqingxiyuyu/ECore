@@ -1,26 +1,26 @@
-#include "etreewidget.h"
+#include "egridwidget.h"
 #include <QPainter>
 #include <QHeaderView>
 #include <QDebug>
 #include <QFontMetrics>
 
-#include <EWidgetItem>
-#include <ETreeModel>
+#include <EGridItem>
+#include <EGridModel>
 
-ETreeWidget::ETreeWidget(QWidget * parent):
+EGridWidget::EGridWidget(QWidget * parent):
     QTreeView(parent),
     m_labelFont(font())
 {
 
 }
 
-void ETreeWidget::drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
+void EGridWidget::drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
     QTreeView::drawRow(painter,options,index);
     drawStateLabel(painter,options,index);
 }
 
-void ETreeWidget::drawStateLabel(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
+void EGridWidget::drawStateLabel(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
     painter->save();
     //绘制网格线
@@ -52,9 +52,9 @@ void ETreeWidget::drawStateLabel(QPainter *painter, const QStyleOptionViewItem &
     painter->restore();
 }
 
-void ETreeWidget::setLabelFormat(const QString &format)
+void EGridWidget::setLabelFormat(const QString &format)
 {
-    ETreeModel *model = qobject_cast<ETreeModel *>(this->model());
+    EGridModel *model = qobject_cast<EGridModel *>(this->model());
     if(!model)
         return ;
 

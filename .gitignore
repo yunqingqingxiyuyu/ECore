@@ -11,3 +11,4 @@
 ./ECorePlugin/*
 Lib/
 *.bkp
+*.*.autosave

@@ -1,6 +1,6 @@
 #include "elineeditplugin.h"
 #include "etimewidgetplugin.h"
-#include "etreewidgetplugin.h"
+#include "egridwidgetplugin.h"
 #include "plugincollection.h"
 
 PluginCollection::PluginCollection(QObject *parent) :
@@ -8,7 +8,7 @@ PluginCollection::PluginCollection(QObject *parent) :
 {
     m_widgets.append(new ELineEditPlugin(this));
     m_widgets.append(new ETimeWidgetPlugin(this));
-    m_widgets.append(new ETreeWidgetPlugin(this));
+    m_widgets.append(new EGridWidgetPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface*> PluginCollection::customWidgets() const
