@@ -5,11 +5,30 @@
 #include <QDebug>
 
 EWidgetItem::EWidgetItem(EWidgetItem *parent) :
-    d_ptr(new EWidgetItemPrivate(this))
+    d_ptr(new EWidgetItemPrivate(this)),
+    itemFlags(Qt::ItemIsSelectable
+              |Qt::ItemIsUserCheckable
+              |Qt::ItemIsEnabled
+              |Qt::ItemIsDragEnabled
+              |Qt::ItemIsDropEnabled)
 {
     Q_D(EWidgetItem);
     d->m_parentItem = parent;
     insertColumns(0,1);
+}
+
+EWidgetItem::EWidgetItem(int type, EWidgetItem *parent):
+    rtti(type),
+    EWidgetItem(parent)
+{
+
+}
+
+EWidgetItem::EWidgetItem(const QStringList &strings, int type, EWidgetItem *parent):
+    EWidgetItem(type,parent)
+{
+    for(auto && item : strings)
+
 }
 
 EWidgetItem::~EWidgetItem()
@@ -273,21 +292,44 @@ bool EWidgetItem::setData(int column, const QVariant &value,int role)
 {
     Q_D(EWidgetItem);
 
-   bool flag = false;
+    if(column < 0)
+        return false;
+
+    ETreeModel *model = this->model();
+
+    bool flag = false;
     do{
-        if(role == Qt::DisplayRole || role == Qt::EditRole)
-        {
-            if(column < 0 || column >= d->m_itemData.size())
-                break;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:{
+
+            if(column >= d->m_itemData.size())
+            {
+                for(int i = d->m_itemData.size() - 1; i < column - 1; ++i)
+                {
+                    d->m_itemData.append(QVariant());
+                }
+
+                d->m_itemData.append(value);
+            }
+            else if(d->m_itemData[column] != value)
+            {
+                d->m_itemData[column] = value;
+            }
+            else
+            {
+                break;//unchanged
+            }
+
             d->m_itemData[column] = value;
             flag = true;
-        }
-        else
-        {
+        }break;
+        default:{
             if(column < 0 || column >= d->m_itemRoleData.size())
                 break;
             flag = true;
             d->m_itemRoleData[column][role] = value;
+        }break;
         }
     }while(false);
 

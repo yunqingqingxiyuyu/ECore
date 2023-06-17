@@ -15,6 +15,8 @@ public:
     enum ItemType{Type = 0, UserType = 1000};
 
     explicit EWidgetItem(EWidgetItem *parent = nullptr);
+    explicit EWidgetItem(int type,EWidgetItem *parent = nullptr);
+    explicit EWidgetItem(const QStringList &strings,int type,EWidgetItem *parent = nullptr);
     ~EWidgetItem();
 
     /**
@@ -111,6 +113,7 @@ public:
      * @return 返回column的数据
      */
     QVariant data(int column,int role = Qt::DisplayRole) const;
+    bool setData(int column, const QVariant &variant,int role = Qt::DisplayRole);
 
 
     /**
@@ -164,7 +167,6 @@ public:
      */
     bool removeColumns(int column,int count);
 
-    bool setData(int column, const QVariant &variant,int role = Qt::DisplayRole);
 
     /**
      * @brief setProperty
@@ -204,9 +206,24 @@ public:
      * @return
      */
     ETreeModel* model(ETreeWidget *v = nullptr) const;
+
+    void setText(int column,const QString &text);
+
+private:
+
 private:
     Q_DECLARE_D(EWidgetItem);
     Q_DECLARE_PRIVATE(EWidgetItem);
+
+    int rtti = 0;
+    Qt::ItemFlags itemFlags;
+    ETreeWidget *view = nullptr;
 };
+
+inline
+void EWidgetItem::setText(int column, const QString &text)
+{
+    setData(column,Qt::DisplayRole,text);
+}
 
 #endif // EWIDGETITEM_H
