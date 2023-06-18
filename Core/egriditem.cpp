@@ -4,20 +4,7 @@
 #include <EGridModel>
 #include <QDebug>
 
-EGridItem::EGridItem(EGridItem *parent) :
-    d_ptr(new EGridItemPrivate(this)),
-    itemFlags(Qt::ItemIsSelectable
-              |Qt::ItemIsUserCheckable
-              |Qt::ItemIsEnabled
-              |Qt::ItemIsDragEnabled
-              |Qt::ItemIsDropEnabled)
-{
-    Q_D(EGridItem);
-    d->m_parentItem = parent;
-    insertColumns(0,1);
-}
-
-EGridItem::EGridItem(int type, EGridItem *parent):
+EGridItem::EGridItem(EGridItem *parent, int type):
     rtti(type),
     d_ptr(new EGridItemPrivate(this)),
     itemFlags(Qt::ItemIsSelectable
@@ -30,7 +17,7 @@ EGridItem::EGridItem(int type, EGridItem *parent):
     d->m_parentItem = parent;
 }
 
-EGridItem::EGridItem(const QStringList &strings, int type, EGridItem *parent):
+EGridItem::EGridItem(const QStringList &strings, EGridItem *parent , int type):
     rtti(type),
     d_ptr(new EGridItemPrivate(this)),
     itemFlags(Qt::ItemIsSelectable
@@ -43,6 +30,21 @@ EGridItem::EGridItem(const QStringList &strings, int type, EGridItem *parent):
     d->m_parentItem = parent;
     for(int i = 0; i < strings.size(); ++i)
         setText(i,strings.at(i));
+}
+
+EGridItem::EGridItem(const QVector<QString> &datas, EGridItem *parent, int type):
+    rtti(type),
+    d_ptr(new EGridItemPrivate(this)),
+    itemFlags(Qt::ItemIsSelectable
+              |Qt::ItemIsUserCheckable
+              |Qt::ItemIsEnabled
+              |Qt::ItemIsDragEnabled
+              |Qt::ItemIsDropEnabled)
+{
+    Q_D(EGridItem);
+    d->m_parentItem = parent;
+    for(int i = 0; i < datas.size(); ++i)
+        setText(i,datas.at(i));
 }
 
 EGridItem::~EGridItem()

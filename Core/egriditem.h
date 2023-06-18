@@ -14,9 +14,9 @@ class CORE_EXPORT EGridItem
 public:
     enum ItemType{Type = 0, UserType = 1000};
 
-    explicit EGridItem(EGridItem *parent = nullptr);
-    explicit EGridItem(int type,EGridItem *parent = nullptr);
-    explicit EGridItem(const QStringList &strings,int type,EGridItem *parent = nullptr);
+    explicit EGridItem(EGridItem *parent = nullptr,int type = Type);
+    explicit EGridItem(const QStringList &strings,EGridItem *parent = nullptr,int type = Type);
+    explicit EGridItem(const QVector<QString> &datas,EGridItem *parent = nullptr,int type = Type);
     ~EGridItem();
 
     EGridWidget* treeWidget() const {return this->view;}
