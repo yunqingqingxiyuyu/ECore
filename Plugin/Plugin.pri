@@ -41,7 +41,6 @@ HEADERS += \
     $$INCLUDE_PATH/egridmodel_p.h \
     $$INCLUDE_PATH/egridwidget.h \
     $$INCLUDE_PATH/egridwidget_p.h \
-    $$INCLUDE_PATH/egridwidgetitem.h \
     $$INCLUDE_PATH/egriditem.h \
     $$INCLUDE_PATH/egriditem_p.h
 

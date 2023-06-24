@@ -185,7 +185,8 @@ void EGridItem::setColumnCount(int count)
     {
         d->m_itemData.append(QVariant());
         d->m_itemRoleData.append(QHash<int ,QVariant>());
-        d->m_propertyToValue.append(QHash<QString ,QVariant>());
+        d->m_background.append(Qt::white);
+        d->m_foreground.append(Qt::black);
     }
 
     removeColumns(count - 1,d->m_itemData.size() - count);
@@ -264,7 +265,6 @@ bool EGridItem::insertColumns(int column, int count)
     {
         d->m_itemData.insert(column,QVariant());
         d->m_itemRoleData.insert(column,QHash<int ,QVariant>());
-        d->m_propertyToValue.insert(column,QHash<QString ,QVariant>());
     }
 
     for(auto *child : qAsConst(d->m_childItems))
@@ -312,11 +312,6 @@ bool EGridItem::setData(int column, const QVariant &value,int role)
     if(column < 0)
         return false;
 
-    EGridModel *model = this->model();
-
-    if(!model)
-        return false;
-
     bool flag = false;
     do{
         switch (role) {
@@ -341,7 +336,6 @@ bool EGridItem::setData(int column, const QVariant &value,int role)
                 break;//unchanged
             }
 
-            d->m_itemData[column] = value;
             flag = true;
         }break;
         default:{
@@ -356,22 +350,16 @@ bool EGridItem::setData(int column, const QVariant &value,int role)
     return flag;
 }
 
-void EGridItem::setProperty(int column,const QString &name, const QVariant &value)
+void EGridItem::setProperty(const QString &name, const QVariant &value)
 {
-    if(column < 0 || column >= columnCount())
-        return ;
-
     Q_D(EGridItem);
 
-    d->m_propertyToValue[column][name] = value;
+    d->m_propertyToValue[name] = value;
 }
 
-QVariant EGridItem::property(int column, const QString &name)
+QVariant EGridItem::property(const QString &name)
 {
-    if(column < 0 || column >= columnCount())
-        return name;
-
     Q_D(const EGridItem);
 
-    return d->m_propertyToValue[column].value(name,name);
+    return d->m_propertyToValue.value(name,name);
 }

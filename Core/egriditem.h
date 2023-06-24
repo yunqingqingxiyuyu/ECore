@@ -175,7 +175,7 @@ public:
      * @param name 属性名
      * @param value 值
      */
-    void setProperty(int column ,const QString &name,const QVariant &value);
+    void setProperty(const QString &name,const QVariant &value);
 
     /**
      * @brief property
@@ -184,7 +184,7 @@ public:
      * @param name
      * @return
      */
-    QVariant property(int column,const QString &name);
+    QVariant property(const QString &name);
 
 
     /**

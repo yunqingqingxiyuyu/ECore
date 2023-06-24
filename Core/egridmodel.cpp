@@ -12,9 +12,10 @@
 EGridModel::EGridModel(int columns,QObject *parent):
     QAbstractItemModel(parent)
 {
-    QVector<QVariant> va{tr("Title"), tr("Summary")};
     m_rootItem = new EGridItem();
     m_rootItem->setColumnCount(columns);
+    propertyColumnAlias.resize(columns);
+    columnLabelFormat.resize(columns);
 }
 
 EGridModel::~EGridModel()
@@ -100,6 +101,9 @@ QVariant EGridModel::headerData(int section, Qt::Orientation orientation, int ro
 
 QModelIndex EGridModel::index(int row, int column, const QModelIndex &parent) const
 {
+    if(!hasIndex(row,column,parent))
+        return QModelIndex();
+
     EGridItem *parentItem = getItem(parent);
     if(!parentItem)
         return QModelIndex();
@@ -190,7 +194,8 @@ bool EGridModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 bool EGridModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
 {
-    if(role != Qt::EditRole || orientation != Qt::Horizontal)
+    if((role != Qt::EditRole && role != Qt::DisplayRole) ||
+            orientation != Qt::Horizontal)
         return false;
 
     const bool result = m_rootItem->setData(section,value);
@@ -217,44 +222,58 @@ void EGridModel::setupModelData(const QJsonArray &array, EGridItem *parentItem)
     {
         QJsonObject temp = array.at(row).toObject();
 
-        auto *newItem = new EGridItem();
+        auto *newItem = new EGridItem(parentItem);
         newItem->setColumnCount(columnCount);
-        for(auto iter = propertyToAlias.constBegin(); iter != propertyToAlias.constEnd(); ++iter)
+
+        auto keys = temp.keys();
+
+        for(auto &&key : keys)
         {
-            QString propery = iter.key();
-            QString alias = iter.value();
+            newItem->setProperty(key,temp.value(key));
+        }
+
+        QString childName = propertyToAlias.value("children");
+
+        if(!childName.isEmpty())
+        {
+            setupModelData(temp.value(childName).toArray(),newItem);
+        }
+
+        for(int column = 0; column < columnCount; ++column)
+        {
+            auto alias = propertyColumnAlias.value(column);
 
             if(alias.isEmpty())
                 continue;
 
-            if(propery == "content")
-            {
-                newItem->setData(0,temp.value(alias).toVariant());
-                newItem->setData(1,QString("%1%2").arg(temp.value(alias).toVariant().toString(),"///"));
-            }
-            else if(propery == "children")
-            {
-                setupModelData(temp.value(alias).toArray(),newItem);
-            }
-        }
-
-        for(auto &&alias : propertyAlias)
-        {
-            newItem->setProperty(0,alias,temp.value(alias).toVariant());
-            newItem->setProperty(1,alias,temp.value(alias).toVariant());
+            newItem->setProperty(alias,temp.value(alias).toVariant());
+            QString content = temp.value(alias).toVariant().toString();
+            newItem->setText(column,content);
         }
 
         parentItem->appendChild(newItem);
     }
 }
 
+void EGridModel::setLabelFormat(int column, const QString &format)
+{
+    if(column < 0 || column >= columnLabelFormat.size())
+        return ;
+
+    columnLabelFormat[column] = format;
+}
+
 QString EGridModel::label(const QModelIndex &index) const
 {
     auto *item = static_cast<EGridItem *>(index.internalPointer());
-    if(!item)
-        return m_labelFormat;
+    int column = index.column();
+    if(!item || column < 0 || column >= columnLabelFormat.size())
+        return "";
 
-    QString format = m_labelFormat;
+    QString format = columnLabelFormat[column];
+
+    if(format.isEmpty())
+        return "";
 
     QRegularExpression re("\\[([^\\[\\]]*?)\\]");
     QRegularExpressionMatchIterator matchIter = re.globalMatch(format);
@@ -264,7 +283,7 @@ QString EGridModel::label(const QModelIndex &index) const
     {
         QRegularExpressionMatch match = matchIter.next();
 
-        result.insert(match.captured(1),item->property(index.column(),match.captured(1)).toString());
+        result.insert(match.captured(1),item->property(match.captured(1)).toString());
     }
 
     for(auto iter = result.constBegin(); iter != result.constEnd(); ++iter)
@@ -273,4 +292,14 @@ QString EGridModel::label(const QModelIndex &index) const
     }
 
     return format;
+}
+
+QVector<QString> EGridModel::getColumnLabelFormat() const
+{
+    return columnLabelFormat;
+}
+
+void EGridModel::setColumnLabelFormat(const QVector<QString> &formats)
+{
+    columnLabelFormat = formats;
 }

@@ -38,7 +38,7 @@ private:
     //存显示数据
     QVector<QVariant> m_itemData;
     //存属性
-    QVector<QHash<QString ,QVariant>> m_propertyToValue;
+    QHash<QString ,QVariant> m_propertyToValue;
     //存除了显示Qt::DisplayRole之外的其他角色数据
     QVector<QHash<int ,QVariant>> m_itemRoleData;
     //存状态数据

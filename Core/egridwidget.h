@@ -39,7 +39,7 @@ public:
      * 设置标签的显示格式
      * @param format
      */
-    void setLabelFormat(const QString &format);
+    void setLabelFormat(int column,const QString &format);
 protected:
     void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const override;
 

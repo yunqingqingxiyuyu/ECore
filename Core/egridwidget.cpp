@@ -52,11 +52,11 @@ void EGridWidget::drawStateLabel(QPainter *painter, const QStyleOptionViewItem &
     painter->restore();
 }
 
-void EGridWidget::setLabelFormat(const QString &format)
+void EGridWidget::setLabelFormat(int column,const QString &format)
 {
     EGridModel *model = qobject_cast<EGridModel *>(this->model());
     if(!model)
         return ;
 
-    model->setLabelFormat(format);
+    model->setLabelFormat(column,format);
 }

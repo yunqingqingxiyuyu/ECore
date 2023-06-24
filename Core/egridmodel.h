@@ -95,11 +95,19 @@ public:
 
     void setupModelData(const QJsonArray &array,EGridItem *parentItem);
 
-    void setLabelFormat(const QString &format){m_labelFormat = format;};
+    void setLabelFormat(int column,const QString &format);
 
     QString label(const QModelIndex &index) const;
 
-    void addProperty(const QString &propertyName){propertyAlias.append(propertyName);}
+    void addColumnProperty(int column,const QString &propertyName){
+        if(column < 0 || column  >= columnCount())
+            return ;
+        propertyColumnAlias[column] = propertyName;
+    }
+
+    QVector<QString> getColumnLabelFormat() const;
+    void setColumnLabelFormat(const QVector<QString> &formats);
+
 private:
     EGridItem *m_rootItem = nullptr;
 
@@ -107,13 +115,12 @@ private:
     QHash<QString ,QString> propertyToAlias{
         {"paretID","parentID"},
         {"children","children"},
-        {"id","id"},
-        {"content","name"}
+        {"id","id"}
     };
 
-    QVector<QString> propertyAlias;
+    QVector<QString> propertyColumnAlias;
 
-    QString m_labelFormat;
+    QVector<QString> columnLabelFormat;
 };
 
 #endif // ETREEMODEL_H
