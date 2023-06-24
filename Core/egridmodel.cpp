@@ -194,8 +194,7 @@ bool EGridModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 bool EGridModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
 {
-    if((role != Qt::EditRole && role != Qt::DisplayRole) ||
-            orientation != Qt::Horizontal)
+    if(role != Qt::EditRole && role != Qt::DisplayRole)
         return false;
 
     const bool result = m_rootItem->setData(section,value);

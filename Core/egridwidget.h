@@ -4,9 +4,16 @@
 #include "core_global.h"
 #include <QTreeView>
 
+class EGridWidgetPrivate;
+
 class CORE_EXPORT EGridWidget : public QTreeView
 {
     Q_OBJECT
+
+    Q_DISABLE_COPY(EGridWidget);
+    Q_DECLARE_D(EGridWidget);
+    Q_DECLARE_PRIVATE(EGridWidget);
+
 public:
     explicit EGridWidget(QWidget *parent = nullptr);
 
@@ -14,25 +21,25 @@ public:
      * @brief setLabelFont
      * 设置标签的字体大小
      */
-    void setLabelFont(const QFont &font){m_labelFont = font;}
+    void setLabelFont(const QFont &font);
 
     /**
      * @brief labelFont
      * @return 返回标签的字体大小
      */
-    QFont labelFont() const {return m_labelFont;}
+    QFont labelFont() const;
 
     /**
      * @brief setLabelAligment
      *
      */
-    void setLabelAligment(int align){m_labelAligment = align;}
+    void setLabelAligment(int align);
 
     /**
      * @brief labelAlignment
      * @return 返回标签的对齐方式
      */
-    int labelAlignment() const {return m_labelAligment;}
+    int labelAlignment() const;
 
     /**
      * @brief setLabelFormat
@@ -40,6 +47,8 @@ public:
      * @param format
      */
     void setLabelFormat(int column,const QString &format);
+
+
 protected:
     void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const override;
 
@@ -53,10 +62,6 @@ protected:
     void drawStateLabel(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const;
 
 private:
-    QFont m_labelFont;
-
-    int m_labelAligment = Qt::AlignLeft;
-
 };
 
 #endif // ETREEWIDGET_H

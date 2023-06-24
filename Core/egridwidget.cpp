@@ -7,12 +7,42 @@
 #include <EGridItem>
 #include <EGridModel>
 
+#include <QHeaderView>
+
+#include "egridwidget_p.h"
+
 EGridWidget::EGridWidget(QWidget * parent):
     QTreeView(parent),
-    m_labelFont(font())
+    d_ptr(new EGridWidgetPrivate(this))
 {
-
 }
+
+void EGridWidget::setLabelFont(const QFont &font)
+{
+    Q_D(EGridWidget);
+    d->labelFont = font;
+}
+
+QFont EGridWidget::labelFont() const
+{
+    Q_D(const EGridWidget);
+    return d->labelFont;
+}
+
+void EGridWidget::setLabelAligment(int align)
+{
+    Q_D(EGridWidget);
+
+    d->labelAligment = align;
+}
+
+int EGridWidget::labelAlignment() const
+{
+    Q_D(const EGridWidget);
+
+    return d->labelAligment;
+}
+
 
 void EGridWidget::drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
